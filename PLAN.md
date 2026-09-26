@@ -95,45 +95,68 @@ a standards body (IETF, NIST) crossed with a modern engineering blog. **Not a st
 
 ### 3.1 Colour palette
 
-Four colours. **Do not introduce new hues.**
+**Superseded 2026-09-27.** The earlier navy/ribbon-blue palette was invented from a verbal
+description and rejected by the owner. It has been replaced with colours sampled directly
+from the real logo files. Do not reintroduce navy or ribbon blue.
 
 | Token | Hex | Role |
 |---|---|---|
-| Navy | `#14213D` | Base background, dark surfaces, footer |
-| Ribbon blue | `#1D4E89` | Structural mid-tone — borders, dividers, subtle surface tints |
-| Teal | `#3FBFA6` | Accent — emphasis, links, active states, focal elements |
-| White | `#FFFFFF` | Text, and hairline borders |
+| Void | `#05070C` | Page background — near-black, sampled from the logo's own background |
+| Surface | `#0B1017` | Cards, panels |
+| Surface-2 | `#121923` | Raised / hover surfaces |
+| Line | — | Hairline borders, cool grey-blue |
+| Brand | `#1848F8` | UCYSS electric blue — 46–65% of the logo. Primary brand colour |
+| Accent | `#18D0C0` | Teal — 10–14% of the logo. Emphasis only, used sparingly |
+| Text | `#FFFFFF` | Primary text |
 
 **Verified contrast ratios (computed, not guessed):**
 
 | Pair | Ratio | Result |
 |---|---|---|
-| Teal on Navy | **7.0:1** | AAA large text, AA body. Use freely. |
-| White on Navy | **16.0:1** | Excellent |
-| **Ribbon blue on Navy** | **1.9:1** | ❌ **FAILS — decorative use only** |
+| Teal `#18D0C0` on Void `#05070C` | **10.4:1** | Safe for text, links, focus rings |
+| White on Void | **~19:1** | Excellent |
+| **Brand `#1848F8` on Void** | **3.2:1** | ⚠️ Large text, borders, glows, UI accents **only** |
 
-**Hard rule:** ribbon blue is for borders, dividers, and subtle surfaces. **Never** for text,
-links, or interactive elements. It looks fine to the eye but fails accessibility.
+**Hard rule:** brand blue is never used for body copy. It passes for large text but fails AA
+for normal-size text. If something needs to be readable, it is teal or white, not blue.
 
 **Accent discipline:** teal appears on roughly **three things per page**, not everywhere. An
 accent used on every button and link is an accent used on nothing. This is the single most
 common failure mode of template-generated sites and the biggest lever on looking premium.
 
-**Neutrals:** derive all greys, muted text, and hairlines from navy via **opacity**. Do not
-introduce new colours.
+**Neutrals:** derive all greys, muted text, and hairlines from the void colour via **opacity**.
+Do not introduce new hues.
 
-### 3.2 Interim branding (real logo exists but is not on this machine)
+#### Other marks in the institutional family (reference only — do not use as site colours)
 
-```
-UPTM CYBERSECURITY STUDENT SOCIETY   ← IBM Plex Mono, 10px, tracking 0.18em, teal
-UCYSS                                ← IBM Plex Sans, 600, white
-```
+| Mark | Colours |
+|---|---|
+| UPTM | `#105098` blue + `#E81820` red |
+| FCOM | `#683088` purple → magenta gradient |
+| Pixora | `#8038E8` violet + `#08A0F0` cyan gradient |
 
-- **Favicon:** teal shield glyph on navy. Generic enough not to conflict with the real mark.
-- **Watermark:** shield silhouette at 3–5% opacity as background texture. Solves the
-  missing-asset problem and becomes a recurring motif.
-- **Swap-in plan:** logo lives at `public/logo.svg` + one component + one token set.
-  Replacing it is a two-minute change, not a site-wide refactor.
+These belong to other bodies. Display the marks; do not adopt their colours into the UI.
+
+### 3.2 Branding — real logos now integrated
+
+The interim text wordmark has been replaced with the real UCYSS logo.
+
+| Asset | Size | Use |
+|---|---|---|
+| `public/logos/ucyss-formal.png` | 320×320 transparent | Primary mark — header, footer |
+| `public/logos/ucyss-casual.png` | 256×256 transparent | Favicon, small placements |
+| `public/logos/ucyss-square.png` | 500×500, black bg | Social / Open Graph images |
+| `public/logos/uptm.png` | 320px transparent | Institutional lockup, footer |
+| `public/logos/fcom.png` | 320px transparent | Institutional lockup, footer |
+| `public/logos/pixora.png` | 320px transparent | Institutional lockup, footer |
+
+All extracted from the zipped brand assets in `~/Documents/Logos` and downscaled for the web
+(the UPTM source was 3000×1344; total set is 276 KB).
+
+- **Favicon:** shield glyph on `#05070C` in teal/blue, plus `ucyss-casual.png` as PNG.
+- `Wordmark.astro` is now a thin wrapper around the image, keeping its `size` prop.
+- **Permission status:** the owner supplied the UPTM, FCOM and Pixora assets directly, which
+  is treated as authorisation to display them. Confirm with Pixora's committee for the record.
 
 ### 3.3 Typography
 
@@ -166,13 +189,27 @@ Restraint. One or two considered transitions at **150–250ms**, ease-out.
 - Smooth in-page navigation
 - Optionally a short typed-line animation in the hero terminal, played **once**
 
-### 3.6 Texture (depth through detail, not effects)
+### 3.6 Atmosphere (depth through detail, not effects)
 
-- Faint 1px grid overlay
-- Film-grain / noise at 2–4% opacity
+**Superseded 2026-09-27.** The blueprint grid, film grain and repeating shield watermark were
+rejected by the owner and removed. Replaced with a stars / deep-space / technical-celestial
+treatment — starfield, orbital arcs, faint constellation lines, distant horizon glow.
+
+Requirements:
+
+- **CSS-only.** No canvas, no JavaScript, no external image requests. The site ships 0 KB of
+  JS apart from the mobile nav toggle, and that must not regress.
+- **Extremely restrained** — 2–8% opacity. A background, not a feature. It should be ignorable.
+- Must never reduce body-text legibility. Re-check contrast over the treatment.
+- If anything animates, it is a very slow drift, and `prefers-reduced-motion` must still
+  disable it (already handled globally in `global.css`).
+- Reads as "deep space / technical", not "sci-fi poster".
+
+Retained detail treatments:
+
 - Hairline dividers
-- Teal or ribbon-blue left accent bar on cards
-- Repeating shield watermark
+- Teal or brand-blue left accent bar on cards
+- Duotone photography treatment for event photos
 
 ### 3.7 Signature component — pick ONE
 
@@ -187,7 +224,7 @@ motif (nods to security-tool aesthetics).
 
 | Avoid | Why |
 |---|---|
-| Indigo/purple → cyan gradient at 135° on near-black | The signature generated-site gradient |
+| Blue → teal diagonal gradients as large decorative fields | The signature generated-site gradient. **Now a live risk** — our own brand is blue+teal on near-black, which is exactly the combo those gradients use. Never use a gradient as a decorative field here. |
 | Huge centred hero, gradient headline, two side-by-side CTAs | Template default |
 | Row of 3 feature cards with gradient rounded-square icons | Template default |
 | Glassmorphism — `backdrop-blur` cards, 10% white borders | Overused, poor contrast, dated |
@@ -688,11 +725,19 @@ society can genuinely embarrass itself.
 
 ## 12. Open items
 
-### Blocking
+### Resolved
 
-- [ ] UPTM / FCOM / Pixora logo usage permission *(slow — start now)*
-- [ ] **Reserved handles:** GitHub org, Instagram, LinkedIn, Telegram
-- [ ] Written photo consent from the media team
+- [x] ~~Logo files~~ — all four mark sets received and integrated from `~/Documents/Logos`
+- [x] ~~Palette~~ — replaced with logo-sampled colours (§3.1)
+- [x] ~~Texture~~ — grid/noise/shield removed, replaced with space treatment (§3.6)
+- [x] ~~Git repository setup~~ — independent repo, dotfiles-repo collision fixed
+- [x] `gh` authenticated · push enabled (owner action, complete)
+- [x] **Reserved handles:** GitHub org, Instagram, LinkedIn, Telegram (owner action)
+- [x] ~~UPTM / FCOM / Pixora logo usage permission~~ — assets supplied directly by owner
+
+### Still blocking
+
+- [ ] Written photo consent from the media team (needed before any photo ships)
 
 ### Needed for content, not blocking
 
@@ -709,11 +754,12 @@ society can genuinely embarrass itself.
       recap. We have 3; there are probably 10+
 - [ ] **Any existing branding** — old Canva logos, banners, poster templates
 - [ ] **UCYSS's own vision/mission** — does one exist, or do we write one?
-- [ ] **Final team roster** — names, roles, photos. Data-driven; adding someone is one file
+- [ ] Final team roster — names, roles, photos. Data-driven; adding someone is one file
 - [ ] **Tagline** — several options can be drafted
 - [ ] **Formalise the "Web Lead" committee role**
-- [ ] **Share the real logo file** (exists, not on this machine)
 - [ ] **Decide the photo destination** — Drive folder vs. direct-to-repo
+- [ ] **OSINT PDF: article page or PDF download?** Leaning strongly to a proper article —
+      a PDF download is a dead end for both SEO and the awareness goal
 
 ### Confirm
 
