@@ -2,15 +2,27 @@
 /**
  * Session log — the hero's right-hand column.
  *
- * A list of real sharing sessions, read straight from `src/data/site.ts`. It is
- * an excerpt of the archive, not a terminal: no prompts, no shell commands, no
- * typed-out output, nothing invented. The only reason it is monospaced is that
- * the rest of the site's metadata is (PLAN.md §3.3), so the list reads as
- * record-keeping rather than as marketing.
+ * A record of what has actually been taught, read straight from
+ * `src/data/site.ts`. It is deliberately not a boxed list with a header and
+ * dividers (PLAN.md §3.4, §3.8): it hangs off a hairline spine, the way an
+ * index in a field notebook does, with a column header that tells you what
+ * each column is for.
  *
- * Layout is mobile-first (PLAN.md §6): a stacked list on a phone, a three-column
- * index on wider screens where the dotted leader can carry the eye across.
- * Zero JavaScript — the whole thing is a static list.
+ * The design is built around the fact that date, presenter and note are all
+ * empty for every entry in the current data set. The topic is the only thing
+ * on this page that is definitely true, so it gets the type — sans, medium,
+ * the largest thing in the column. Everything else is metadata, set small in
+ * mono, and simply absent when nobody has recorded it. There are no invented
+ * session numbers: a position in a list is not a session reference.
+ *
+ * The date column stays a real, labelled, fixed-width column even when it is
+ * empty, because an empty column under a DATE header is a clearer statement
+ * of "not on record" than a dashed box repeated on every row. The note under
+ * the list then says so once, in plain words, instead of three times in caps.
+ *
+ * Zero JavaScript — a static <ol>. One transition, and the global
+ * `prefers-reduced-motion` rule already collapses it. Mobile-first: one column
+ * at 375px, no horizontal overflow.
  */
 import { sessions } from "../data/site";
 
@@ -21,72 +33,110 @@ interface Props {
 	caption?: string;
 }
 
-const { heading = "Recent sessions", caption } = Astro.props;
+const { heading = "Session log", caption } = Astro.props;
+
+/* How many listed sessions have no date. Those rows get no date cell at all;
+   the gap in the column is the marker. See the note below the list. */
+const undated = sessions.filter((s) => !s.date).length;
+const dateNote =
+	undated === 0
+		? null
+		: undated === sessions.length
+			? "no dates on record for these yet — they get added when someone confirms them."
+			: undated === 1
+				? "1 of these has no date on record yet."
+				: `${undated} of these have no date on record yet.`;
 ---
 
 <section aria-labelledby="session-log-heading">
-	<div class="border border-line">
-		<h2
-			id="session-log-heading"
-			class="label-mono border-b border-line px-5 py-3 text-faint md:px-6"
-		>
-			{heading}
-		</h2>
-
+	<!-- Open space, not a card. One hairline closes the header; the list is
+	     hung off its own spine below. -->
+	<div
+		class="flex flex-wrap items-baseline gap-x-5 gap-y-1 border-b border-line-strong pb-3"
+	>
+		<h2 id="session-log-heading" class="label-mono text-accent">{heading}</h2>
 		{
-			sessions.length > 0 ? (
-				<ol class="divide-y divide-line">
-					{sessions.map((session, i) => (
-						<li class="grid grid-cols-[1.75rem_1fr] gap-x-4 gap-y-2 px-5 py-4 md:grid-cols-[1.75rem_1fr_auto] md:items-baseline md:gap-x-6 md:px-6">
-							<span class="label-mono pt-[0.3125rem] text-[0.625rem] text-faint" aria-hidden="true">
-								{String(i + 1).padStart(2, "0")}
-							</span>
-
-							<div class="min-w-0">
-								<p class="font-mono text-[0.9375rem] leading-snug text-text">
-									{session.topic}
-								</p>
-								{session.presenter && (
-									<p class="label-mono mt-2 text-[0.5625rem] text-faint">
-										taught by {session.presenter}
-									</p>
-								)}
-								{session.note && (
-									<p class="mt-2 text-[0.8125rem] leading-relaxed text-muted">{session.note}</p>
-								)}
-							</div>
-
-							<div class="col-start-2 md:col-start-3 md:justify-self-end">
-								{session.date ? (
-									<time
-										class="label-mono text-[0.625rem] text-faint md:pt-[0.3125rem] md:inline-block"
-										datetime={session.date}
-									>
-										{session.date}
-									</time>
-								) : (
-									/* An obviously unfilled field, so nobody publishes a date
-									   nobody has confirmed. Delete the session's date in
-									   src/data/site.ts once it is known. */
-									<span class="label-mono inline-block border border-dashed border-line-strong px-2 py-1 text-[0.5625rem] text-faint">
-										date to add
-									</span>
-								)}
-							</div>
-						</li>
-					))}
-				</ol>
-			) : (
-				<p class="px-5 py-6 text-[0.8125rem] text-faint md:px-6">
-					No sessions listed yet.
+			sessions.length > 0 && (
+				<p class="label-mono text-[0.625rem] text-faint">
+					{sessions.length} topics on record
 				</p>
 			)
 		}
 	</div>
 
 	{
+		sessions.length > 0 ? (
+			<>
+				{/* Column labels, wide screens only, so the two columns of the
+				    record are legible as a record. Marked decorative: the list
+				    underneath already carries the same information for a screen
+				    reader, and this is a table head bolted onto an <ol>. */}
+				<div
+					class="hidden gap-x-6 border-b border-line py-2.5 md:grid md:grid-cols-[minmax(0,1fr)_6.5rem] md:pl-6"
+					aria-hidden="true"
+				>
+					<span class="label-mono text-[0.625rem] text-faint">Topic</span>
+					<span class="label-mono justify-self-end text-[0.625rem] text-faint">
+						Date
+					</span>
+				</div>
+
+				<ol class="border-b border-line-strong">
+					{sessions.map((session) => (
+						<li class="relative grid gap-x-6 gap-y-3 border-l border-line-strong py-5 pl-6 transition-colors duration-200 ease-out-soft hover:border-accent md:grid-cols-[minmax(0,1fr)_6.5rem] md:gap-y-0">
+							{/* The node on the spine. A square, not a dot: these are
+							    topics, not events, and there is no timeline here. */}
+							<span
+								class="absolute -left-[0.1875rem] top-[0.5625rem] size-1.5 bg-accent"
+								aria-hidden="true"
+							/>
+
+							<div class="min-w-0">
+								<p class="text-[1.0625rem] font-medium leading-[1.35] tracking-tight text-text sm:text-[1.125rem]">
+									{session.topic}
+								</p>
+								{session.presenter && (
+									<p class="label-mono mt-2.5 text-[0.625rem] text-faint">
+										taught by {session.presenter}
+									</p>
+								)}
+								{session.note && (
+									<p class="mt-2.5 max-w-prose text-[0.875rem] leading-relaxed text-muted">
+										{session.note}
+									</p>
+								)}
+							</div>
+
+							{session.date && (
+								<time
+									class="label-mono text-[0.625rem] text-faint md:justify-self-end md:self-start md:pt-1"
+									datetime={session.date}
+								>
+									{session.date}
+								</time>
+							)}
+						</li>
+					))}
+				</ol>
+
+				{dateNote && (
+					<p class="mt-3.5 font-mono text-[0.6875rem] leading-relaxed text-faint">
+						{dateNote}
+					</p>
+				)}
+			</>
+		) : (
+			<p class="border-b border-line-strong py-6 text-[0.8125rem] text-faint">
+				No sessions on record yet.
+			</p>
+		)
+	}
+
+	{
 		caption && (
-			<p class="mt-4 max-w-xs text-[0.8125rem] leading-relaxed text-faint">{caption}</p>
+			<p class="mt-6 max-w-sm text-[0.8125rem] leading-relaxed text-muted">
+				{caption}
+			</p>
 		)
 	}
 </section>
