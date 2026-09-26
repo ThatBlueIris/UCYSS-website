@@ -34,6 +34,15 @@ UCYSS is a **student community** at Universiti Poly-Tech Malaysia (UPTM) focused
 cybersecurity. We run technical activities: capture-the-flag labs, hands-on security
 workshops, digital forensics, OSINT, and we attend industry cybersecurity conventions.
 
+> **⚠ SUPERSEDED 2026-09-27 — the paragraph above misrepresents the society and its framing
+> has been rejected by the owner. Do not use it.**
+>
+> It reads as though forensics and OSINT are what UCYSS *is*. They are not. They are two of
+> many topics that happen to have come up at meetups. The framing made two incidental subjects
+> look like an identity, and it hid the thing that actually makes the society worth joining.
+>
+> **The corrected model is in §1.4. Build all copy from that, not from the paragraph above.**
+
 ### 1.2 The Pixora / FCOM relationship — read carefully
 
 UCYSS is **not a separate club**. It is the cybersecurity-focused community within
@@ -43,10 +52,18 @@ UCYSS is **not a separate club**. It is the cybersecurity-focused community with
 UPTM
 └── Faculty of Computing & Multimedia (FCOM)
     └── Pixora  — the official FCOM club. Broad computing community, events, welfare.
-        └── UCYSS  — cybersecurity focus group. CTFs, forensics, OSINT, technical sharing.
+        └── UCYSS  — cybersecurity focus group. Weekly peer-taught sessions, a CTF team.
 ```
 
 **Positioning line:** *"Pixora is our home. UCYSS is where we go deep on security."*
+
+> **⚠ The positioning line is superseded** (2026-09-27). "Go deep on security" frames UCYSS
+> as a specialisation track for people who are already good at security — the exact opposite
+> of who actually turns up, which is beginners. It is also what produced the "forensics and
+> OSINT are our thing" misreading. Replaced by the peer-led-learning framing in §1.4.
+>
+> The **institutional hierarchy above is still correct and still required.** Only the
+> positioning line changed.
 
 **Critical:** never present UCYSS as a rival to, or a replacement for, Pixora. We cannot
 create a new club, and FCOM only has Pixora. Framing UCYSS as a Pixora focus group is both
@@ -65,11 +82,52 @@ genuine advantage — most society sites have nothing.
 |---|---|
 | `UCYSS OSINT.pdf` (Arif Abd Kahar) | A proper writeup/article page — not a PDF download |
 | `HTB_Meeting_Minutes_5Aug.docx` | Events entry for the HTB meetup |
-| `HTB Meetup_ UPTM Participants List.csv` (~41 members) | Member count for the stats bar |
+| `HTB Meetup_ UPTM Participants List.csv` (~41 attendees at that one meetup) | Historical record. **Not** the member count — see below |
 | `Digital Forensics/*.pcap`, `Steganography/images.jpg` | "Intro to Digital Forensics" writeup |
-| `CYBERDSA Proposal.docx` | Events entry for CyberDSA 2026 (MITEC, 38 students + 2 lecturers) |
+| `CYBERDSA Proposal.docx` | Events entry for CyberDSA 2026 (MITEC). **Attendance figures removed from public copy** |
 | Media team photos (Instagram, LinkedIn, Drive) | Gallery albums |
 | `TemplatePostReport.docx` | Reference for event recap structure |
+
+### 1.4 What UCYSS actually does — the corrected model
+
+**Source: owner's own description, 2026-09-27. This is the authoritative account. Everything on
+the public site should be written from this section.**
+
+**UCYSS is a peer-led learning community that meets almost every week.** Not a forensics lab,
+not an OSINT group, not a CTF team first. The type of community it is:
+
+- **The core unit is a member-led sharing session.** One member volunteers to teach something
+  they recently learned. There is no teacher, no curriculum, no syllabus. Topics change weekly
+  and are deliberately varied so nobody arrives already knowing what the week covers.
+- **Real topics already covered:** OSINT · web exploitation using Burp Suite · Linux for
+  beginners.
+- **Beginner-first by design, not as a courtesy.** Members are assumed to start with little or
+  no prior cybersecurity knowledge, and the community is deliberately built so that people
+  teach each other up. A first-year with no background is the *expected* attendee, not an
+  exception being made.
+- **CTF is encouraged and coordinated.** UCYSS fields its own team and members compete
+  together rather than alone.
+- **SunCTF is backed by the university** (transportation funding). Other CTFs are entered
+  self-funded, with no university ask.
+- **CTFs entered so far:** Bahtera CTF · Maltego OSINT CTF · Nadi CTF.
+- **Post-CTF debriefs happen when requested.** The team gets together to walk through how
+  flags were obtained, the methods, the steps. This is a team culture, not a document.
+- **Conventions and external meetups**, not only CyberDSA. Attendance is broader than one
+  event.
+
+**The differentiator is the model, not the topics.** "Everyone teaches everyone, beginners are
+genuinely welcome, we compete as a team" is the pitch. The topics are *evidence* that the model
+works, never the headline.
+
+**Why this framing matters commercially:** it is the hook that makes a first-year student think
+*I could join and actually learn something*, and simultaneously makes a visitor from another
+university think *that's a good culture*. That second reaction is the entire awareness goal.
+A forensics framing does neither — it recruits people who are already interested and tells
+outsiders nothing.
+
+**Corollary — the content model changes.** With meetups running weekly and ~100 activities
+already logged, **events are no longer an archive, they are the backbone of the site.** The
+archive is the proof of consistency, not a side feature.
 
 ---
 
@@ -175,10 +233,13 @@ the fastest way to make a site look generated.
 
 - **Asymmetric and editorial.** Left-aligned text, varied column widths, generous negative
   space, a consistent left margin. Not everything centred.
-- **Asymmetric hero** — text left, terminal/graphic block right.
-- **Real content on the homepage, not marketing copy.** Put an actual recent writeup title, a
-  real event with a real date, real numbers. Real content is the strongest possible signal
-  that a site is real.
+- **Asymmetric hero** — text left, **real session log** right. Not a terminal. See §3.9.
+- **Real content on the homepage, not marketing copy.** Put an actual recent session topic, a
+  real event, real numbers. Real content is the strongest possible signal that a site is real.
+- **The stats row carries no event-attendance figures.** Conference attendance ("38 students
+  at MITEC") was removed by the owner — it is not what the society is judged on and it
+  crowded out the numbers that matter. Current figures: **92 members · ~100 activities ·
+  CTFs entered · weekly cadence.**
 - **Curated photography** with disciplined cropping and consistent aspect ratios.
 
 ### 3.5 Motion
@@ -187,7 +248,9 @@ Restraint. One or two considered transitions at **150–250ms**, ease-out.
 
 - Subtle card hover state
 - Smooth in-page navigation
-- Optionally a short typed-line animation in the hero terminal, played **once**
+- ~~Optionally a short typed-line animation in the hero terminal, played **once**~~ —
+  **removed.** The hero is no longer a terminal (see §3.11). The only animation budget on the
+  homepage is the space field's 220s stepped drift.
 
 ### 3.6 Atmosphere (depth through detail, not effects)
 
@@ -216,6 +279,12 @@ Retained detail treatments:
 The single most memorable design element. My recommendation: a **writeup "terminal card"** —
 mono metadata, prompt-style cursor, teal left accent bar. One idea repeated with discipline
 beats five ideas used once each.
+
+> **Scope clarification (2026-09-27).** The owner rejected the terminal *in the hero* as
+> generic — "it's meta for every cybersecurity website." That is a criticism of using a fake
+> shell as a hero graphic, **not** of mono metadata on content cards. The writeup card is
+> still the right direction. Keep the mono/label treatment and the accent bar; drop the
+> `$` prompt and the fake-command framing wherever it appears.
 
 Alternatives: hex-grid section divider, CTF-scoreboard stat block, file-selector/folder-tab
 motif (nods to security-tool aesthetics).
@@ -249,12 +318,51 @@ Plain, specific, human. Write like a person, not a marketer.
 
 Specific, understated copy is a large anti-generic signal and costs nothing.
 
+**Banned vocabulary.** With the visual system corrected, word choice is the single biggest
+remaining reason the site could still read as generated. These words are banned outright:
+
+> empower · unlock · supercharge · elevate · journey · passion · community-driven ·
+> cutting-edge · state-of-the-art · world-class · take your skills to the next level ·
+> where passion meets purpose · more than just a club · united we hack
+
+**The test:** if a sentence would survive being pasted onto any other student club's website,
+rewrite it. Prefer concrete facts over adjectives. Short sentences. Modest copy is fine — the
+real material is genuinely good and does not need inflation.
+
+**Do not claim editorial review.** The archive must not describe writeups as "checked",
+"verified", "reviewed" or "vetted" — the owner rejected that language on 2026-09-27 and asked
+it be removed rather than reworded. Reframe the archive as a record of what the community
+actually did, with members' own notes on what they learned. (The internal self-review
+requirement in §9 is still real — it just is not advertised.)
+
 ### 3.10 Photography treatment
 
-- **Duotone (navy + teal)** via CSS blend modes — instantly cohesive, hides mismatched
+- **Duotone (void + teal)** via CSS blend modes — instantly cohesive, hides mismatched
   source quality, and it is a single CSS filter. Recommended.
 - Alternative: subtle film presets for a less corporate feel.
 - Consistent aspect ratios (recommend 3:2 for cards, 16:9 for covers).
+
+### 3.11 Hero graphic — the real session log
+
+**Decided 2026-09-27.** The hero's fake terminal (a `$ ucyss what-we-run` prompt with invented
+output) was rejected by the owner as *"meta for every cybersecurity website"* — generic to the
+point of being a costume. Options weighed: real session log · learning-path graph · next-session
+card · CTF results board. **Real session log won**, because it is the only one that is
+*specific to UCYSS* and it proves the §1.4 model in one glance.
+
+Implementation: a mono-typed list of actual sharing sessions — topic, reference number, and
+where known the presenter and a one-line note. No `$` prompts, no fake shell commands, no
+ASCII box art, no cursor. Reads as a real archive excerpt.
+
+- **Data source:** `src/data/site.ts` → `sessions: SharingSession[]`. Adding a session must
+  never require touching a component.
+- **Seeded with the three real topics only** (OSINT · web exploitation with Burp Suite · Linux
+  for beginners). Nothing is invented — no dates, no presenter names, no outcomes. Unknown
+  fields render as an obvious editable placeholder rather than a plausible-looking guess.
+- Mobile-first: stacks to a single column at 375px.
+- **Astro whitespace bug to not reintroduce:** collapsing whitespace between a text line and a
+  following inline element ships them concatenated (`home.UCYSS`). Both hero headings use an
+  explicit `{" "}`. Leave it alone.
 
 ---
 
@@ -352,18 +460,43 @@ redeploying.
 **Sveltia CMS** — an admin form UI at `/admin` letting a non-technical committee member
 publish events without touching Git. One config file, no page-code changes.
 
+> **Confirmed as the CMS choice, but deliberately deferred** (owner decision, 2026-09-27).
+>
+> The owner's reasoning: *"future proofing — let's just say the committee will update it
+> later when I stop caring about this project."* The handover, not the owner's own editing, is
+> what makes the CMS necessary. So the trigger for building it is **the owner's exit**, not
+> today.
+>
+> **What happens in the meantime:** `src/data/site.ts` is the single editable data module.
+> Changing the member count is a 30-second edit in GitHub's web UI — open the file, change
+> `92`, commit. Works on a phone. No new software, no auth to expire. This fully covers the
+> owner's own needs, so the CMS is genuinely a future problem and there is nothing to wait for.
+>
+> **Why not build it now:** the collections are empty. A CMS over zero events is hard to
+> evaluate and easy to get wrong, and it needs ~half a day of GitHub OAuth/token setup that
+> can break silently when a token expires. Build it in Phase 6, once there is real content and
+> real mistakes to design the forms around.
+>
+> **Scope limit to state plainly to any future editor:** the CMS edits **content only** —
+> events, writeups, team, stats. It will not let anyone rearrange the homepage layout. That
+> remains a code change.
+
 **Turnstile** — Cloudflare's free, privacy-friendly CAPTCHA alternative.
 
 ### 4.4 Dark mode, and light mode later
 
-Dark-only for launch. Structure the palette as CSS custom properties in **one file**:
+Dark-only for launch. Structure the palette as CSS custom properties in **one file**.
+
+> The `:root` block below is the **rejected** navy palette and is kept only to show the shape
+> of the approach. The live tokens are in `src/styles/global.css` — see §3.1 for the real
+> logo-sampled values and the contrast rules.
 
 ```css
 :root {
-  --color-navy: #14213D;
-  --color-ribbon: #1D4E89;
-  --color-teal: #3FBFA6;
-  --color-surface: ...;  /* derived from navy */
+  --color-navy: #14213D;     /* rejected — do not reintroduce */
+  --color-ribbon: #1D4E89;   /* rejected — do not reintroduce */
+  --color-teal: #3FBFA6;     /* replaced by #18D0C0 */
+  --color-surface: ...;      /* derived from void */
   --color-text: ...;
 }
 ```
@@ -380,7 +513,7 @@ Eight content types, schema definitions in one place, low-impact to change later
 
 | Collection | Key fields |
 |---|---|
-| `events` | title, date, type (Meetup/Workshop/Conference/CTF/Talk), location, organiser, cover, summary, body, attendees, gallery, externalUrl, featured |
+| `events` | title, date, type (Sharing session/Meetup/Workshop/Convention/CTF/Talk), **topic**, **presenter**, **sessionRef**, location, organiser, cover, summary, body, gallery, externalUrl, featured |
 | `writeups` | title, date, authors, category (Web/Pwn/Crypto/Forensics/OSINT/Network), difficulty, tools, cover, body, relatedEvent |
 | `announcements` | title, date, pinned, body |
 | `team` | name, role, photo, bio, order, links |
@@ -389,7 +522,45 @@ Eight content types, schema definitions in one place, low-impact to change later
 | `albums` | title, date, cover, images[] |
 | `resources` | title, description, url, tags |
 
+**The `events` schema is shaped around sharing sessions, not conferences** (2026-09-27). The
+dominant recurring event is a member presenting a topic they learned, so `topic`, `presenter`
+and `sessionRef` are first-class fields and the type list leads with *Sharing session*.
+Conference attendance is a minority of the record, and its attendance figures stay out of
+public copy. A session that produced a writeup links both ways via `relatedEvent`.
+
+**Sessions versus hero sessions.** The three seeded hero sessions in `src/data/site.ts` are
+hand-picked and short. Once the `events` collection exists they should be drawn from it, so
+there is one source of truth. Until then the config module is authoritative for the hero.
+
 Shared `tags`; per-collection `categories` for filtering.
+
+### 5.0 Archive scale — answered, don't re-litigate
+
+The owner asked whether ~100 logged activities would make the listing enormous. **It will
+not, and the volume is an asset rather than a problem.**
+
+- Astro emits every entry as a static page at build time. ~100 pages is trivial — a few
+  seconds, and it all serves off a CDN.
+- The index shows the latest ~12, with category and year filters, and paginates beyond that
+  (~9 pages at 12 per page).
+- Filtering runs against static data, so it is instant and needs no server.
+- Every entry keeps its own URL, which is what makes search engines and link previews work.
+
+A hundred logged sessions is the single most convincing thing the site can display: it says
+*this group has been running, consistently, for a long time.* That is exactly the impression
+the awareness goal needs, so the archive should be prominent rather than buried.
+
+**Two composition rules for the archive** (learned by getting it wrong, 2026-09-27):
+
+1. **Sharing sessions lead the list.** The first draft opened with a convention and a
+   dedicated OSINT workshop, with no sessions in it at all — so a site whose entire pitch is
+   *we meet weekly and teach each other* had an archive that said the opposite. The archive
+   must look like the thing being advertised.
+2. **No attendance numbers anywhere.** "38 students and 2 adjunct lecturers at CyberDSA" and
+   "41 students signed up" were both cut. Say what happened, not how many people watched.
+
+The archive list lives in `src/data/site.ts` (`activityLog`), not inline in a component, so
+the credibility section is editable in the same place as the member count.
 
 **Reserved for later:** optional `titleBm` / `summaryBm` / `bodyBm` fields on events,
 announcements, and team. A small language toggle falls back to English when absent. This is
@@ -415,9 +586,19 @@ why BM can be added incrementally later without restructuring anything.
 /404
 ```
 
-**Homepage composition:** hero (wordmark + positioning line) · stats bar (members, events,
-workshops, hours) · activity pillars · featured writeup · next upcoming event · latest
-announcements · join CTA.
+**Homepage composition:** hero (wordmark + peer-led-learning headline + **real session log**) ·
+stats bar (members · sessions & activities · CTFs entered · meetup cadence — all from config) ·
+activity pillars (weekly sharing sessions · the CTF team · conventions & external meetups) ·
+featured writeup · next upcoming event · latest announcements · join CTA.
+
+**Stats row content is decided** (2026-09-27): 92 members · ~100 sessions and activities ·
+3 CTFs entered · weekly cadence. **No event-attendance figures** — conference turnout
+("38 students at MITEC") was removed by the owner as not representing the society.
+
+**Every number on the site is read from `src/data/site.ts`.** No hardcoded statistics in
+markup. The module's header comment explains in plain language how to change the member count
+and add a session, for someone editing it in GitHub's web UI with no code experience. Keep it
+plain data with no logic, so the CMS migration is a repoint rather than a rewrite.
 
 **`/partners` and `/achievements` specifically serve the "known by other universities" goal.**
 Universities respond strongly to documented results and reciprocal links.
@@ -609,30 +790,38 @@ being debugged at once.*
 > Never run a bare `git add .` before this is confirmed.
 
 - [ ] Make this folder its own independent git repository (see ⚠️ GOTCHA above)
-- [ ] Add `.gitignore` (`.env`, `node_modules`, `dist`, `.astro/`) from day one
+- [x] Add `.gitignore` (`.env`, `node_modules`, `dist`, `.astro/`) from day one
 - [ ] Create the Cloudflare Pages project, connect the repo
 - [ ] Deploy a "hello world" Astro site — **pipeline proven**
-- [ ] Request UPTM / FCOM / Pixora logo usage permission from Pixora committee
+- [x] Request UPTM / FCOM / Pixora logo usage permission — assets supplied directly by owner
 - [ ] Ask the media team for **written consent** to publish member photos
 
 ### Phase 1 — Design system & shell
 
-- [ ] Define colour tokens in one CSS file (navy, ribbon, teal, white + derived neutrals)
-- [ ] Verify ribbon blue is never used for text (it fails contrast at 1.9:1)
-- [ ] Add IBM Plex Sans + IBM Plex Mono
-- [ ] Base layout component
-- [ ] Header + desktop nav
-- [ ] Mobile drawer nav
-- [ ] Footer with the UPTM → FCOM → Pixora lockup
-- [ ] Shield watermark texture + faint grid
-- [ ] Asymmetric hero with the interim wordmark
-- [ ] Stats bar component
-- [ ] Pillars section
-- [ ] Check mobile layout at 375px first, then add desktop at each breakpoint
+- [x] Define colour tokens in one CSS file — **done, resampled from the real logo** (§3.1)
+- [x] Enforce the contrast rule: brand blue is large-text/borders/glows only, never body copy
+- [x] Add IBM Plex Sans + IBM Plex Mono
+- [x] Base layout component
+- [x] Header + desktop nav
+- [x] Mobile drawer nav
+- [x] Footer with the UPTM → FCOM → Pixora lockup (real logo images, low opacity)
+- [x] ~~Shield watermark + faint grid~~ — **rejected by owner**, replaced with the CSS-only
+      deep-space field (starfield + orbital arcs + horizon glows, §3.6)
+- [x] ~~Interim wordmark~~ — **replaced with the real UCYSS logo**
+- [x] **Repositioned hero**: peer-led-learning headline + real session log (§3.11). The fake
+      terminal was rejected as generic
+- [x] Stats bar component — all figures read from `src/data/site.ts`, no hardcoded numbers
+- [x] Pillars section — weekly sharing sessions · the CTF team · conventions & external
+      meetups
+- [x] Copy rewritten across `index`, `about` and `Footer` off the §1.4 model; banned-vocabulary
+      list enforced (§3.9)
+- [x] Archive copy no longer claims writeups are reviewed/verified
+- [x] Check mobile layout at 375px first, then add desktop at each breakpoint
+- [x] Verify 0 KB of shipped JavaScript apart from the mobile nav toggle
 
 ### Phase 2 — Static pages
 
-- [ ] `/about` — including the Pixora hierarchy diagram
+- [x] `/about` — written, including the Pixora hierarchy ladder
 - [ ] `/what-we-do`
 - [ ] `/team` — placeholder data until the roster is final
 - [ ] `/join`
@@ -654,7 +843,7 @@ being debugged at once.*
 ### Phase 4 — Gallery & photos
 
 - [ ] Gallery grid + album pages + lightbox
-- [ ] Duotone treatment (navy + teal)
+- [ ] Duotone treatment (void + teal)
 - [ ] Responsive images via Astro `<Image>`
 - [ ] Google Drive sync script (~15 lines, service account)
 - [ ] GitHub Action to run the sync and rebuild
@@ -663,7 +852,7 @@ being debugged at once.*
 
 ### Phase 5 — SEO, social, polish
 
-- [ ] Per-page **OG image generation** (navy, grid, watermark, wordmark, title) — the single
+- [ ] Per-page **OG image generation** (void base, space field, wordmark, title) — the single
       highest-leverage detail for the awareness goal, since most of our audience shares
       links in WhatsApp and Telegram
 - [ ] `sitemap.xml` + `robots.txt`
@@ -675,10 +864,16 @@ being debugged at once.*
 
 ### Phase 6 — Handover
 
-- [ ] `README.md` — what the project is, how to run it
+- [x] ~~`README.md` — what the project is, how to run it~~ — **still Astro's template README,
+      not yet replaced.** Tracked below.
+- [ ] Replace `README.md` and `AGENTS.md` (both still scaffold leftovers)
 - [ ] `CONTRIBUTING.md`
 - [ ] "How to add an event" guide
-- [ ] Sveltia CMS at `/admin` so a non-technical successor can publish
+- [ ] **Sveltia CMS at `/admin`** — the trigger for this is the owner's exit, not a date.
+      Confirmed as the chosen approach; see the note in §4.3 for why it is deferred and what
+      covers the gap until then
+- [ ] Move site-level figures out of `src/data/site.ts` into a CMS-editable `stats` entry
+- [ ] Cloudflare Pages deploy hook so CMS saves publish automatically
 - [ ] Transfer repo ownership to the society org
 - [ ] Name a backup person with repo access
 - [ ] Publish the first announcement post
@@ -734,10 +929,25 @@ society can genuinely embarrass itself.
 - [x] `gh` authenticated · push enabled (owner action, complete)
 - [x] **Reserved handles:** GitHub org, Instagram, LinkedIn, Telegram (owner action)
 - [x] ~~UPTM / FCOM / Pixora logo usage permission~~ — assets supplied directly by owner
+- [x] ~~Hero graphic~~ — fake terminal rejected; real session log shipped (§3.11)
+- [x] ~~Positioning~~ — forensics/OSINT framing rejected; peer-led-learning model recorded
+      as the authoritative account (§1.4)
+- [x] ~~Stats content~~ — decided and made editable via `src/data/site.ts`
+- [x] ~~CMS choice~~ — Sveltia confirmed, deferred to handover with the trigger recorded (§4.3)
 
 ### Still blocking
 
 - [ ] Written photo consent from the media team (needed before any photo ships)
+
+### Needed to finish the copy
+
+- [ ] **Session dates, presenters and one-line notes × 3** — the hero session log ships with
+      visible `DATE TO ADD` placeholders. Real values go in `src/data/site.ts`
+- [ ] **Hero copy in the owner's own voice** — the current headline and lede were written by
+      the assistant from the §1.4 notes. Correct facts, wrong voice. This is the last
+      significant thing standing between the site and not reading as generated
+- [ ] **Tagline** — several options can be drafted
+- [ ] **The three CTF results** — placements if they exist, for the archive
 
 ### Needed for content, not blocking
 
@@ -750,16 +960,19 @@ society can genuinely embarrass itself.
 - [ ] **Pixora's vision/mission** — UCYSS should visibly align, not compete
 - [ ] **Pixora member benefits** — if Pixora members get welfare perks, UCYSS members
       inherit them. Great `/join` content
-- [ ] **Full event inventory** — every past event with date, venue, attendance, one-line
-      recap. We have 3; there are probably 10+
-- [ ] **Any existing branding** — old Canva logos, banners, poster templates
+- [ ] **Full event inventory** — every past session and event with date, topic, presenter,
+      one-line recap. This is the **backbone** of the site now, not a side feature (§1.4);
+      weekly cadence means ~100 activities is plausible and it is the strongest credibility
+      signal available. No attendance figures in public copy.
+- [ ] **Any existing branding** — superseded; real logos received and integrated
 - [ ] **UCYSS's own vision/mission** — does one exist, or do we write one?
 - [ ] Final team roster — names, roles, photos. Data-driven; adding someone is one file
-- [ ] **Tagline** — several options can be drafted
 - [ ] **Formalise the "Web Lead" committee role**
 - [ ] **Decide the photo destination** — Drive folder vs. direct-to-repo
-- [ ] **OSINT PDF: article page or PDF download?** Leaning strongly to a proper article —
-      a PDF download is a dead end for both SEO and the awareness goal
+- [ ] ~~OSINT PDF: article page or PDF download?~~ — **parked by the owner 2026-09-27.** Not
+      urgent, and it must not be framed as a headline topic. When it is picked up, prefer a
+      proper article over a PDF download — a PDF is a dead end for SEO and for the awareness
+      goal.
 
 ### Confirm
 

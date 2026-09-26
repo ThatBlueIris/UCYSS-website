@@ -1,0 +1,92 @@
+---
+/**
+ * Session log — the hero's right-hand column.
+ *
+ * A list of real sharing sessions, read straight from `src/data/site.ts`. It is
+ * an excerpt of the archive, not a terminal: no prompts, no shell commands, no
+ * typed-out output, nothing invented. The only reason it is monospaced is that
+ * the rest of the site's metadata is (PLAN.md §3.3), so the list reads as
+ * record-keeping rather than as marketing.
+ *
+ * Layout is mobile-first (PLAN.md §6): a stacked list on a phone, a three-column
+ * index on wider screens where the dotted leader can carry the eye across.
+ * Zero JavaScript — the whole thing is a static list.
+ */
+import { sessions } from "../data/site";
+
+interface Props {
+	/** States plainly what the list is. */
+	heading?: string;
+	/** One short line under the panel. */
+	caption?: string;
+}
+
+const { heading = "Recent sessions", caption } = Astro.props;
+---
+
+<section aria-labelledby="session-log-heading">
+	<div class="border border-line">
+		<h2
+			id="session-log-heading"
+			class="label-mono border-b border-line px-5 py-3 text-faint md:px-6"
+		>
+			{heading}
+		</h2>
+
+		{
+			sessions.length > 0 ? (
+				<ol class="divide-y divide-line">
+					{sessions.map((session, i) => (
+						<li class="grid grid-cols-[1.75rem_1fr] gap-x-4 gap-y-2 px-5 py-4 md:grid-cols-[1.75rem_1fr_auto] md:items-baseline md:gap-x-6 md:px-6">
+							<span class="label-mono pt-[0.3125rem] text-[0.625rem] text-faint" aria-hidden="true">
+								{String(i + 1).padStart(2, "0")}
+							</span>
+
+							<div class="min-w-0">
+								<p class="font-mono text-[0.9375rem] leading-snug text-text">
+									{session.topic}
+								</p>
+								{session.presenter && (
+									<p class="label-mono mt-2 text-[0.5625rem] text-faint">
+										taught by {session.presenter}
+									</p>
+								)}
+								{session.note && (
+									<p class="mt-2 text-[0.8125rem] leading-relaxed text-muted">{session.note}</p>
+								)}
+							</div>
+
+							<div class="col-start-2 md:col-start-3 md:justify-self-end">
+								{session.date ? (
+									<time
+										class="label-mono text-[0.625rem] text-faint md:pt-[0.3125rem] md:inline-block"
+										datetime={session.date}
+									>
+										{session.date}
+									</time>
+								) : (
+									/* An obviously unfilled field, so nobody publishes a date
+									   nobody has confirmed. Delete the session's date in
+									   src/data/site.ts once it is known. */
+									<span class="label-mono inline-block border border-dashed border-line-strong px-2 py-1 text-[0.5625rem] text-faint">
+										date to add
+									</span>
+								)}
+							</div>
+						</li>
+					))}
+				</ol>
+			) : (
+				<p class="px-5 py-6 text-[0.8125rem] text-faint md:px-6">
+					No sessions listed yet.
+				</p>
+			)
+		}
+	</div>
+
+	{
+		caption && (
+			<p class="mt-4 max-w-xs text-[0.8125rem] leading-relaxed text-faint">{caption}</p>
+		)
+	}
+</section>

@@ -1,76 +1,51 @@
 ---
 import Base from "../layouts/Base.astro";
+import SessionLog from "../components/SessionLog.astro";
+import { activityLog, ctfNames, figures } from "../data/site";
 
-/* ---------------------------------------------------------------------------
-   Real content, sourced from our own records in ~/Documents/UCYSS. If a number
-   changes, change it here — putting real content on the homepage instead of
-   marketing filler is the single strongest signal that this site is real.
-   --------------------------------------------------------------------------- */
+/* Every number on this page comes from src/data/site.ts. Nothing is written
+   into the markup, so changing the member count or adding a session is a
+   one-file job for whoever holds the repository. */
 const stats = [
-	{ value: "41", label: "Registered members" },
-	{ value: "38", label: "Students at CyberDSA 2026" },
-	{ value: "4", label: "Forensics lab sets" },
-	{ value: "MITEC", label: "Kuala Lumpur" },
+	{ value: figures.members.value, label: figures.members.label },
+	{
+		value: figures.sessionsRun.value,
+		label: figures.sessionsRun.label,
+		approximate: figures.sessionsRun.approximate,
+	},
+	{ value: figures.ctfsEntered.value, label: figures.ctfsEntered.label },
+	{ value: figures.meetupCadence.value, label: figures.meetupCadence.label },
 ];
 
 const pillars = [
 	{
 		tag: "01",
-		title: "Hands-on labs",
-		meta: "fortnightly",
-		body: "Capture-the-flag machines and structured walkthroughs, on a fortnightly cadence. We open a Hack The Box session, work the boxes in the room, and write up what actually broke. Bring a laptop; spares exist if you don't have one.",
+		title: "Weekly sharing sessions",
+		meta: "member-led · one topic per week",
+		body: "One member signs up to teach something they picked up recently, and everyone else comes to learn it. The topic changes every week and is deliberately varied — OSINT, web exploitation with Burp Suite, and Linux for beginners have all been on. Nobody is expected to know anything beforehand.",
 	},
 	{
 		tag: "02",
-		title: "Forensics & OSINT",
-		meta: "pcap · disk images · stego",
-		body: "The deep end. Packet captures, an NTFS disk image, steganography, and a recon discipline that starts with what you can find out about someone without touching their machine — and stops before it becomes doxxing.",
+		title: "The CTF team",
+		/* Read from the data module so the two lists cannot drift apart. */
+		meta: ctfNames.join(" · ").toLowerCase(),
+		body: "We enter competitions as a group rather than as individuals. UPTM backs SunCTF with transport money; the rest we pay for ourselves. Afterwards, if the team wants it, we sit down together and go through how each flag was actually got — the method, the steps, the dead ends. That conversation is the point, not a report anyone writes.",
 	},
 	{
 		tag: "03",
-		title: "Conventions & exposure",
-		meta: "CyberDSA · CyberSecurity Malaysia",
-		body: "We take students to national events and bring back what we learned. 38 students and two adjunct lecturers at CyberDSA 2026. A delegation to CyberSecurity Malaysia in June. This is the part of the job that doesn't fit on a screen.",
-	},
-];
-
-/* The archive index. Dates, titles and figures are taken from the artefacts
-   themselves — meeting minutes, the workshop deck, the ATAP proposal, and the
-   forensics lab folder. */
-const archive = [
-	{
-		date: "2026 / 10 / 05",
-		kind: "upcoming",
-		title: "CyberDSA 2026",
-		body: "MITEC, Kuala Lumpur. A national convention on secure AI, digital trust, critical infrastructure and digital forensics — 38 students and 2 adjunct lecturers, run under Pixora's ATAP allocation.",
-	},
-	{
-		date: "2026 / 08 / 28",
-		kind: "workshop",
-		title: "The Art of OSINT",
-		body: "Arif Abd Kahar's 26-slide deck: digital footprint, ethics under Malaysian cyber law, dorking, SOCMINT, GEOINT and TECHINT — closing on a self-audit of your own cooked footprint.",
-	},
-	{
-		date: "2026 / 08 / 05",
-		kind: "session",
-		title: "Hack The Box, first lab",
-		body: "Classroom CR 5.20, 10:30pm. 41 students signed up across all nine semesters, run with Pixora's protocol, technical and media teams.",
-	},
-	{
-		date: "2026 / 06 / 25",
-		kind: "visit",
-		title: "CyberSecurity Malaysia",
-		body: "A morning at Cyberjaya with the UPTM delegation — briefing, questions, and a look at how a national CERT actually operates.",
+		title: "Conventions and external meetups",
+		meta: "cybersecurity malaysia · external meetups",
+		body: "We attend conventions and other communities' meetups, then bring back what was worth hearing and teach it in a session. It is a small part of the year, and it is how most of what we know got into the room in the first place.",
 	},
 ];
 ---
 
 <Base
 	title="UCYSS"
-	description="The cybersecurity focus group within Pixora, FCOM, UPTM. Capture-the-flag labs, digital forensics, OSINT, and writeups from the sessions we run."
+	description="A cybersecurity community at UPTM where members teach each other, almost every week. Beginner-first sharing sessions, and a CTF team that competes together."
 >
 	<!-- ==================== HERO ==================== -->
-	<!-- Asymmetric by design: type on the left, the terminal block on the right.
+	<!-- Asymmetric by design: type on the left, the session log on the right.
 	     Never a centred headline over two stacked buttons. The deep-space field
 	     is a fixed backdrop behind the whole document, so there is nothing to
 	     layer here. -->
@@ -81,15 +56,18 @@ const archive = [
 			<div class="lg:col-span-7">
 				<p class="label-mono text-accent">Pixora &middot; FCOM &middot; UPTM</p>
 
+				<!-- {" "} keeps a real space where the line breaks: Astro collapses the
+				     whitespace between text and the span, and "teachessomething" is
+				     not a word. -->
 				<h1 class="mt-7 max-w-2xl text-display font-light">
-					Pixora is our home.
-					<span class="font-semibold">UCYSS</span> is where we go deep on security.
+					Every week, a member teaches{" "}
+					<span class="font-semibold">something they learned recently</span>.
 				</h1>
 
 				<p class="mt-8 max-w-xl text-lede text-muted">
-					A student community at Universiti Poly-Tech Malaysia. We run capture-the-flag
-					labs, digital forensics and OSINT sessions on a fortnightly cadence, and we
-					publish the writeups.
+					A student community at Universiti Poly-Tech Malaysia. One member picks the topic
+					and teaches it; the rest of us turn up, ask questions and take notes. Most people
+					arrive knowing very little, which is why it works that way.
 				</p>
 
 				<div class="mt-11 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -102,52 +80,21 @@ const archive = [
 						Join UCYSS
 					</a>
 					<a
-						href="/writeups"
+						href="/what-we-do"
 						class="inline-flex min-h-12 items-center justify-center border border-line-strong px-7 text-sm text-muted transition-colors duration-200 hover:border-ghost hover:text-text"
 					>
-						Read the writeups
+						How a week works
 					</a>
 				</div>
 			</div>
 
-			<!-- The terminal block. Its job is to say what we actually run, in the
-			     idiom our members already live in. -->
+			<!-- What we actually run, taken from the record. Deliberately not a
+			     terminal: a fake `$` prompt is meta for every cybersecurity site
+			     on the internet, and this one is meant to look like an archive. -->
 			<div class="lg:col-span-5 lg:pt-14">
-				<div class="overflow-hidden border border-line bg-surface font-mono">
-					<div
-						class="flex items-center gap-3 border-b border-line px-4 py-2.5 text-[0.6875rem] text-faint"
-					>
-						<span class="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true"></span>
-						<span>ucyss &mdash; scope</span>
-					</div>
-
-					<div class="space-y-2.5 p-5 text-[0.8125rem] leading-relaxed">
-						<p><span class="text-accent">$</span> <span class="text-text">ucyss what-we-run</span></p>
-						{
-							[
-								["parent", "Pixora — FCOM, UPTM"],
-								["ctf", "hack the box · fortnightly"],
-								["forensics", "pcap · ntfs image · stego"],
-								["osint", "dorking · socmint · opsec"],
-								["output", "writeups, published openly"],
-							].map(([key, value]) => (
-								<p class="flex items-baseline gap-2.5">
-									<span class="w-[4.5rem] shrink-0 text-text">{key}</span>
-									<span class="rule-dots" aria-hidden="true" />
-									<span class="text-faint">{value}</span>
-								</p>
-							))
-						}
-						<p class="pt-1.5 text-faint">
-							<span class="text-accent" aria-hidden="true">$</span>
-							<span class="ml-1.5 inline-block h-3.5 w-[0.5rem] translate-y-0.5 bg-accent" aria-hidden="true" />
-						</p>
-					</div>
-				</div>
-
-				<p class="mt-4 max-w-xs text-[0.8125rem] leading-relaxed text-faint">
-					Meetings are open to any FCOM student. You do not need to be good at this.
-				</p>
+				<SessionLog
+					caption="Anyone in the room can teach the next one — being new to security is not a reason to wait."
+				/>
 			</div>
 		</div>
 	</section>
@@ -162,6 +109,7 @@ const archive = [
 					stats.map((s) => (
 						<div>
 							<dd class="text-3xl font-light tracking-display text-text md:text-4xl">
+								{"approximate" in s && s.approximate ? "~" : ""}
 								{s.value}
 							</dd>
 							<dt class="label-mono mt-3 text-faint">{s.label}</dt>
@@ -172,11 +120,11 @@ const archive = [
 		</div>
 	</section>
 
-	<!-- ==================== PILLARS ==================== -->
+	<!-- ==================== WHAT WE DO ==================== -->
 	<section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
 		<div class="max-w-2xl">
 			<p class="label-mono text-accent">What we do</p>
-			<h2 class="mt-6 text-title font-light">Three things, done properly.</h2>
+			<h2 class="mt-6 text-title font-light">Three things, and that is the whole list.</h2>
 		</div>
 
 		<!-- An editorial numbered list. Deliberately not a row of three cards
@@ -220,20 +168,24 @@ const archive = [
 					</a>
 				</div>
 
-				<!-- An index, not a card grid: fixed date column, kind, title, note. -->
+				<!-- An index, not a card grid: fixed date column, kind, title, note.
+				     The entries live in src/data/site.ts so the archive is editable
+				     in the same place as the member count. -->
 				<ol class="mt-12 border-t border-line">
 					{
-						archive.map((entry) => (
+						activityLog.map((entry) => (
 							<li class="grid gap-x-8 gap-y-2 border-b border-line py-6 md:grid-cols-12">
 								<p class="label-mono pt-1 text-[0.625rem] text-faint md:col-span-2">
-									{entry.date}
+									{entry.date || "date to add"}
 								</p>
 								<p class="label-mono pt-1 text-[0.625rem] text-faint md:col-span-2">
 									{entry.kind}
 								</p>
 								<div class="md:col-span-8">
 									<h3 class="text-lg font-medium tracking-tight">{entry.title}</h3>
-									<p class="mt-2 max-w-2xl leading-relaxed text-muted">{entry.body}</p>
+									{entry.body && (
+										<p class="mt-2 max-w-2xl leading-relaxed text-muted">{entry.body}</p>
+									)}
 								</div>
 							</li>
 						))
@@ -241,9 +193,9 @@ const archive = [
 				</ol>
 
 				<p class="mt-8 max-w-xl text-[0.9375rem] leading-relaxed text-faint">
-					Nothing here is filler. Every entry comes out of our own records, and every
-					writeup is checked for leaked credentials, real target infrastructure and
-					other people's personal data before it goes up.
+					Every entry here came out of something that actually happened. The writeups are
+					members' own notes on what they worked through — written by whoever ran the
+					session, in their own words, and left up as they were written.
 				</p>
 			</div>
 		</div>

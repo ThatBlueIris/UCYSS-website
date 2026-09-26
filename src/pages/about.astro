@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Wordmark from "../components/Wordmark.astro";
+import { ctfNames, figures } from "../data/site";
 
 /* The hierarchy is stated as data so the marks, the order and the wording of
    each rung cannot drift apart. Roles are the accurate ones: Pixora is FCOM's
@@ -29,7 +30,7 @@ const hierarchy = [
 	},
 	{
 		name: "UCYSS",
-		role: "A focus group inside Pixora. Capture-the-flag labs, forensics, OSINT.",
+		role: "A focus group inside Pixora. Weekly sessions taught by members, beginner-first, and a CTF team.",
 		logo: null,
 		indent: "sm:pl-24",
 		alt: "",
@@ -45,7 +46,7 @@ const next = [
 
 <Base
 	title="About"
-	description="Where UCYSS sits inside Pixora, FCOM and UPTM, what we run, how to join, and what we publish."
+	description="How UCYSS works: weekly sessions taught by members, beginner-first, plus a CTF team that competes together. And where UCYSS sits inside Pixora, FCOM and UPTM."
 >
 	<!-- ==================== MASTHEAD ==================== -->
 	<section class="border-b border-line">
@@ -54,9 +55,11 @@ const next = [
 		>
 			<div class="lg:col-span-8">
 				<p class="label-mono text-accent">About</p>
+				<!-- {" "} keeps a real space where the line breaks — Astro collapses the
+				     whitespace before the span, and "knowingalmost" is not a word. -->
 				<h1 class="mt-7 max-w-2xl text-display font-light">
-					Pixora is our home.
-					<span class="font-semibold">UCYSS</span> is where we go deep on security.
+					Most of us started knowing{" "}
+					<span class="font-semibold">almost nothing</span>.
 				</h1>
 			</div>
 
@@ -86,9 +89,9 @@ const next = [
 			<p>
 				<strong>UCYSS</strong> is a focus group inside Pixora. We are not a separate
 				society, we are not a rival to Pixora, and we are not competing for the same
-				recognition. We took the security part of that remit — capture-the-flag labs,
-				digital forensics, OSINT — and went deeper than a general-interest club has the
-				room to.
+				recognition. What we took from that remit is a weekly habit: one member teaches
+				something, the rest of the room learns it, and a team of us enters CTFs
+				together. There are {figures.members.value} members.
 			</p>
 
 			<!-- The hierarchy, as a ladder rather than a box diagram. Each rung is
@@ -152,43 +155,49 @@ const next = [
 
 			<blockquote class="my-12">
 				<p class="m-0 text-[1.375rem] leading-snug font-light tracking-tight text-text md:text-2xl">
-					“Pixora is our home. UCYSS is where we go deep on security.”
+					“The week you know something is the week you teach it.”
 				</p>
 			</blockquote>
 
-			<h2>What we run</h2>
+			<h2>How a week works</h2>
 
 			<p>
-				Three things, in roughly the order they eat our time. The work is deliberately
-				hands-on. A society that only talks about security teaches nothing, and one that
-				only runs labs teaches a narrow slice of it.
+				We meet about once a week, and a meeting has one shape to it. A member volunteers
+				to teach something they learned recently — something that interested them, or
+				something they had to work out for themselves. Everyone else comes to learn it.
+				There is no syllabus and no guest speaker. The person at the front learned it a
+				few weeks ago.
 			</p>
 
-			<h3>Labs</h3>
 			<p>
-				A Hack The Box session roughly every fortnight. The room fills, boxes get opened,
-				and somebody always gets stuck in a way worth writing down. Those write-downs are
-				the output, not a side effect. The first session, on the 5th of August, put 41
-				students in Classroom CR 5.20 at half past ten at night — every semester from
-				first year to ninth.
+				That is why the sessions assume you start from nothing. If you have never opened a
+				terminal, the Linux session is a perfectly reasonable first one to walk into.
+				Nobody is put on the spot, and nobody is expected to keep up with the member who
+				has been at this for a year. The topic changes every week on purpose, so no one
+				can fall behind on all of it. OSINT, web exploitation with Burp Suite, and Linux
+				for beginners are three of the ones we have run.
 			</p>
 
-			<h3>Forensics</h3>
 			<p>
-				Packet captures, a disk image, a steganography exercise. The Digital Forensics
-				folder is the oldest thing in our repository and still the most used:
-				<code>the_heist.pcap</code>, <code>ctf_network_investigation.pcap</code>, an NTFS
-				image lifted off a decommissioned drive, and a folder of images with something
-				hidden inside them.
+				Being a beginner here is not a gap to apologise for. Everyone in the room was new
+				at some point, most people are new now, and the people who have been around
+				longest remember being exactly where you are.
 			</p>
 
-			<h3>OSINT</h3>
+			<h2>The CTF team</h2>
+
 			<p>
-				One workshop, one deck, and the most useful slide in it. A public group-project
-				report from 2019, uploaded to a document-sharing site with nothing redacted,
-				carrying every member's IC number, matric number and phone number. It is on the
-				internet now and it cannot be un-published. The only question left is whether
-				you knew it was there.
+				UCYSS has its own team and we enter as a team, not as a scattering of
+				individuals. So far: {ctfNames.join(", ")}. SunCTF is backed by the university,
+				which covers transport. The others we pay for ourselves, which is part of why we
+				take them seriously.
+			</p>
+
+			<p>
+				Afterwards, if the team asks for it, we debrief. Someone puts up a flag they found
+				and the group works through how it was actually got: the tool, the step, the hour
+				lost down a dead end. Nobody writes it up as a report. It is a conversation, and
+				everybody on the team hears it.
 			</p>
 
 			<h2>Joining</h2>
@@ -197,7 +206,7 @@ const next = [
 				Membership runs through Pixora. You join Pixora, you tell them you want the
 				security track, and you turn up. There is no application test, no interview, and
 				no prerequisite module. If you can open a terminal and are willing to read a
-				walkthrough, you can keep up with a lab session.
+				walkthrough, you can keep up.
 			</p>
 
 			<p>
@@ -208,33 +217,25 @@ const next = [
 			<h2>What we publish</h2>
 
 			<p>
-				Everything we learn goes up as a writeup, publicly, which means it outlives the
-				committee that made it. Every one goes through the same short checklist first:
+				Anything worth keeping goes up as a writeup, and the archive is a record of what
+				the community has actually done. The notes are the members' own — written by
+				whoever ran the session, in the state they got it working, and left that way on
+				purpose. Roughly {figures.sessionsRun.value} sessions and activities are logged
+				so far. A half-finished note is still useful to whoever reads it next year.
 			</p>
 
-			<ul>
-				<li>No live credentials, keys, tokens or passwords — not even realistic-looking ones.</li>
-				<li>No real target infrastructure, real domains, or real internal hostnames.</li>
-				<li>
-					No third-party personal data. Names, IC numbers, emails and phone numbers
-					belong to people who did not consent to being in a writeup.
-				</li>
-				<li>Screenshots cropped or blurred wherever something identifying is visible.</li>
-				<li>Every command and tool verified to actually run as written.</li>
-			</ul>
-
 			<p>
-				That last one is the one people skip, and it is the one that matters most.
-				Publishing a command that does not work teaches the reader something false. A
-				society that teaches OSINT has no excuse for publishing a doxxing guide by
-				accident.
+				One habit we do keep: nothing about anyone else goes in. Names, IC numbers,
+				matric numbers, emails and phone numbers belong to people who never agreed to be
+				in a writeup, so they stay out. It is the least interesting paragraph on this
+				page and the one we care about most.
 			</p>
 
 			<div class="callout my-10">
 				<p class="m-0">
 					One of the OSINT slides was a real 2019 group-project report, complete with
-					everyone's IC and matric numbers. That slide is the reason this site has a
-					privacy notice, and the reason the checklist above exists.
+					everyone's IC and matric numbers. It is the reason this site has a privacy
+					notice, and the reason that rule exists.
 				</p>
 			</div>
 		</div>
