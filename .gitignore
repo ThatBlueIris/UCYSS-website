@@ -1,0 +1,36 @@
+# --- build output ---
+dist/
+.output/
+
+# --- generated types ---
+.astro/
+*.tsbuildinfo
+
+# --- dependencies ---
+node_modules/
+.pnp
+.pnp.js
+
+# --- environment variables (never commit secrets) ---
+.env
+.env.production
+.env.*.local
+
+# --- logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- editor ---
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

@@ -1,0 +1,47 @@
+---
+/**
+ * Interim wordmark (PLAN.md §3.2).
+ *
+ * The real UCYSS logo exists but is not on this machine. This is a deliberate
+ * interim identity, not a placeholder hack — the wordmark sits in one component
+ * so swapping in the real mark is a two-minute change:
+ *   1. drop the file at public/logo.svg
+ *   2. replace the <svg> below with an <img src="/logo.svg">
+ * Nothing else in the codebase references the logo.
+ */
+interface Props {
+	/** Render at large display size (hero) or compact size (header/footer) */
+	size?: "sm" | "lg";
+	class?: string;
+}
+
+const { size = "sm", class: className = "" } = Astro.props;
+const isLarge = size === "lg";
+---
+
+<div class={`flex items-center gap-3 ${className}`}>
+	<svg
+		viewBox="0 0 24 26"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.4"
+		aria-hidden="true"
+		class={`shrink-0 text-teal ${isLarge ? "h-11 w-10" : "h-6 w-[22px]"}`}
+	>
+		<path d="M12 1.5 3 5v7.5c0 5.4 3.6 10.4 9 11.5 5.4-1.1 9-6.1 9-11.5V5l-9-3.5Z" />
+		<path d="M12 7.5v9M8.8 10h6.4" stroke-width="1" />
+	</svg>
+
+	<span class="flex flex-col leading-none">
+		<span
+			class={`label-mono text-accent ${isLarge ? "text-[0.7rem] tracking-[0.2em]" : "text-[0.6rem]"}`}
+		>
+			UPTM Cybersecurity Student Society
+		</span>
+		<span
+			class={`font-semibold tracking-[0.04em] ${isLarge ? "mt-1.5 text-4xl" : "mt-1 text-base"}`}
+		>
+			UCYSS
+		</span>
+	</span>
+</div>

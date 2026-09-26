@@ -1,0 +1,81 @@
+---
+/**
+ * Base HTML shell. Every page renders through this.
+ */
+import "../styles/global.css";
+
+/* Self-hosted fonts. No Google Fonts CDN — that would be a third-party request
+   leaking every visitor's IP to Google, which is an awkward position for a
+   cybersecurity society to defend. */
+import "@fontsource/ibm-plex-sans/300.css";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	/** Hide the header/footer chrome (used by the 404 page) */
+	bare?: boolean;
+}
+
+const { title, description, bare = false } = Astro.props;
+
+/* Set `site` in astro.config.mjs to your real origin — canonical URLs and the
+   sitemap need an absolute base. Placeholder until a domain/subdomain is fixed. */
+const site = Astro.site?.toString() ?? "";
+const canonical = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.toString();
+const fullTitle = title === "UCYSS" ? "UPTM Cybersecurity Student Society" : `${title} — UCYSS`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{fullTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+
+		<meta name="theme-color" content="#14213D" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		<!-- Open Graph: this is what shows when a link is shared in WhatsApp,
+		     Telegram or LinkedIn. Generated per-page in a later phase. -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="UCYSS" />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta name="twitter:card" content="summary_large_image" />
+	</head>
+
+	<body class="min-h-dvh bg-bg text-text antialiased">
+		<a
+			href="#main"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-teal focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-navy"
+		>
+			Skip to content
+		</a>
+
+		{
+			!bare && (
+				<div class="flex min-h-dvh flex-col">
+					<Header />
+					<main id="main" class="flex-1">
+						<slot />
+					</main>
+					<Footer />
+				</div>
+			)
+		}
+		{bare && <main id="main"><slot /></main>}
+	</body>
+</html>

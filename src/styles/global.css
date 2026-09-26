@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   UCYSS design tokens
+   Single source of truth. Nothing in the codebase should use a raw hex value —
+   always reference a token, so light mode is a one-block change later.
+   Documented in PLAN.md §3.1
+   ========================================================================== */
+
+@theme {
+	/* ---- Brand palette ---------------------------------------------------- */
+	--color-navy: #14213d; /* base background, dark surfaces, footer          */
+	--color-ribbon: #1d4e89; /* structural mid-tone — BORDERS/SURFACES ONLY   */
+	--color-teal: #3fbfa6; /* accent — 7.0:1 on navy, use sparingly          */
+	--color-ink: #0b1220; /* deepest shadow tone, derived from navy          */
+
+	/* ---- Semantic tokens (what components actually reference) ------------- */
+	--color-bg: var(--color-navy);
+	--color-surface: color-mix(in oklab, var(--color-navy) 93%, white);
+	--color-surface-raised: color-mix(in oklab, var(--color-navy) 87%, white);
+	--color-line: color-mix(in oklab, var(--color-ribbon) 70%, transparent);
+	--color-line-soft: color-mix(in oklab, white 10%, transparent);
+	--color-text: #ffffff;
+	--color-muted: color-mix(in oklab, #ffffff 62%, transparent);
+	--color-faint: color-mix(in oklab, #ffffff 38%, transparent);
+	--color-accent: var(--color-teal);
+	--color-accent-dim: color-mix(in oklab, var(--color-teal) 70%, transparent);
+
+	/* ---- Typography ------------------------------------------------------- */
+	--font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* ---- Motion ----------------------------------------------------------- */
+	--ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+	--speed-quick: 180ms;
+	--speed-base: 240ms;
+}
+
+/* ============================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+	html {
+		background-color: var(--color-bg);
+		/* Dark themes read better with slightly lighter text rendering */
+		-webkit-text-size-adjust: 100%;
+		scrollbar-gutter: stable;
+	}
+
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-text);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
+
+	/* Teal focus ring — high contrast, never ribbon blue */
+	:focus-visible {
+		outline: 2px solid var(--color-teal);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+
+	::selection {
+		background-color: color-mix(in oklab, var(--color-teal) 30%, transparent);
+		color: #fff;
+	}
+
+	/* Never let a long URL or title blow out a layout */
+	h1,
+	h2,
+	h3,
+	h4 {
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	/* Respect the user's motion preference. The site is restrained anyway. */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+}
+
+/* ============================================================================
+   Custom utilities
+   Texture through detail rather than effects (PLAN.md §3.6)
+   ========================================================================== */
+
+/* Faint 1px grid — the base texture for large surfaces */
+@utility grid-texture {
+	background-image:
+		linear-gradient(
+			to right,
+			color-mix(in oklab, var(--color-ribbon) 26%, transparent) 1px,
+			transparent 1px
+		),
+		linear-gradient(
+			to bottom,
+			color-mix(in oklab, var(--color-ribbon) 26%, transparent) 1px,
+			transparent 1px
+		);
+	background-size: 56px 56px;
+}
+
+/* Film grain at very low opacity. Sits above the grid, below content. */
+@utility noise-texture {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+	background-repeat: repeat;
+}
+
+/* Shield silhouette, used as a 3-5% opacity watermark (PLAN.md §3.2) */
+@utility shield-watermark {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233FBFA6' stroke-width='0.7'%3E%3Cpath d='M12 2.5 4 5.5v6c0 4.6 3.2 8.9 8 10 4.8-1.1 8-5.4 8-10v-6l-8-3Z'/%3E%3Cpath d='M12 7v8M8.5 9.5h7'/%3E%3C/svg%3E");
+	background-repeat: repeat;
+	background-position: center;
+	background-size: 420px 420px;
+}
+
+/* Duotone treatment for event photography (PLAN.md §3.10) */
+@utility duotone {
+	filter: grayscale(1) contrast(1.06) brightness(0.94);
+	transition: filter var(--speed-base) var(--ease-out-soft);
+}
+
+@utility duotone-lift {
+	filter: grayscale(1) contrast(1.06) brightness(0.94)
+		sepia(0.28) hue-rotate(125deg) saturate(1.5);
+}
+
+/* Small mono label used for eyebrows, metadata, and table-ish data */
+@utility label-mono {
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	line-height: 1.2;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
+/* Signature element: the teal left accent bar (PLAN.md §3.7) */
+@utility accent-bar {
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: 0;
+		width: 2px;
+		background-color: var(--color-teal);
+		transition: width var(--speed-quick) var(--ease-out-soft);
+	}
+}

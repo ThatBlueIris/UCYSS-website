@@ -1,0 +1,116 @@
+---
+/**
+ * Site header: horizontal nav on desktop, drawer on mobile.
+ *
+ * These are genuinely different components, not the same markup resized
+ * (PLAN.md §6.2). The drawer is a small island — the rest of the page ships
+ * zero JavaScript.
+ */
+import Wordmark from "./Wordmark.astro";
+
+const nav = [
+	{ href: "/about", label: "About" },
+	{ href: "/what-we-do", label: "What We Do" },
+	{ href: "/events", label: "Events" },
+	{ href: "/writeups", label: "Writeups" },
+	{ href: "/gallery", label: "Gallery" },
+	{ href: "/join", label: "Join" },
+	{ href: "/contact", label: "Contact" },
+];
+
+const current = Astro.url.pathname;
+const isActive = (href: string) => current === href || current.startsWith(`${href}/`);
+---
+
+<header
+	class="sticky top-0 z-40 border-b border-line-soft bg-bg/85 backdrop-blur-sm"
+	data-header
+>
+	<div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-18 md:px-8">
+		<a href="/" class="shrink-0" aria-label="UCYSS home">
+			<Wordmark />
+		</a>
+
+		<!-- Desktop navigation -->
+		<nav aria-label="Main" class="hidden lg:block">
+			<ul class="flex items-center gap-7">
+				{
+					nav.map((item) => (
+						<li>
+							<a
+								href={item.href}
+								aria-current={isActive(item.href) ? "page" : undefined}
+								class:list={[
+									"text-sm transition-colors duration-200",
+									isActive(item.href)
+										? "text-teal"
+										: "text-muted hover:text-text",
+								]}
+							>
+								{item.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<!-- Mobile trigger. 44x44px minimum touch target. -->
+		<button
+			type="button"
+			class="-mr-2 flex h-11 w-11 items-center justify-center lg:hidden"
+			aria-expanded="false"
+			aria-controls="mobile-nav"
+			data-nav-toggle
+		>
+			<span class="sr-only">Open menu</span>
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-6 w-6" aria-hidden="true">
+				<path data-icon="open" d="M3 6h18M3 12h18M3 18h18" />
+				<path data-icon="close" d="M6 6l12 12M18 6L6 18" class="hidden" />
+			</svg>
+		</button>
+	</div>
+
+	<!-- Mobile drawer -->
+	<div id="mobile-nav" class="hidden border-t border-line-soft lg:hidden" data-nav-panel>
+		<nav aria-label="Mobile" class="mx-auto max-w-6xl px-5 py-4 md:px-8">
+			<ul class="flex flex-col">
+				{
+					nav.map((item) => (
+						<li class="border-b border-line-soft last:border-0">
+							<a
+								href={item.href}
+								aria-current={isActive(item.href) ? "page" : undefined}
+								class:list={[
+									"flex min-h-12 items-center text-[0.95rem]",
+									isActive(item.href) ? "text-teal" : "text-muted",
+								]}
+							>
+								{item.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<script>
+	// Mobile nav drawer. Progressive enhancement: without JS the panel stays
+	// closed, so the links are still reachable via the footer.
+	const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+	const panel = document.querySelector<HTMLElement>("[data-nav-panel]");
+
+	toggle?.addEventListener("click", () => {
+		const open = toggle.getAttribute("aria-expanded") === "true";
+		toggle.setAttribute("aria-expanded", String(!open));
+		panel?.classList.toggle("hidden", open);
+		document
+			.querySelector('[data-icon="open"]')
+			?.classList.toggle("hidden", !open);
+		document
+			.querySelector('[data-icon="close"]')
+			?.classList.toggle("hidden", open);
+	});
+</script>
