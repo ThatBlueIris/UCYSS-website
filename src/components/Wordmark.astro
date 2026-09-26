@@ -1,47 +1,43 @@
 ---
 /**
- * Interim wordmark (PLAN.md §3.2).
+ * The real UCYSS mark.
  *
- * The real UCYSS logo exists but is not on this machine. This is a deliberate
- * interim identity, not a placeholder hack — the wordmark sits in one component
- * so swapping in the real mark is a two-minute change:
- *   1. drop the file at public/logo.svg
- *   2. replace the <svg> below with an <img src="/logo.svg">
- * Nothing else in the codebase references the logo.
+ * This replaces the interim identity described in PLAN.md §3.2 — the
+ * hand-drawn shield and the typed-out "UCYSS" lockup are both gone. The
+ * component is now a thin wrapper around one file, so the mark can be
+ * re-exported from the designers at any resolution without touching a
+ * call site.
+ *
+ * The mark is a square seal that fills its canvas, so one dimension drives
+ * both axes. `sm` is chrome (header, footer); `lg` is editorial display
+ * (the About masthead).
  */
 interface Props {
-	/** Render at large display size (hero) or compact size (header/footer) */
+	/** Compact mark for page chrome, or the full seal for display. */
 	size?: "sm" | "lg";
+	/** Passthrough onto the root element, for positioning. */
 	class?: string;
+	/**
+	 * Empty by default: the mark almost always sits beside a text lockup or
+	 * inside a link that already carries the name, so it is decorative there.
+	 * Pass a string when the image is the only thing conveying the identity.
+	 */
+	alt?: string;
 }
 
-const { size = "sm", class: className = "" } = Astro.props;
-const isLarge = size === "lg";
+const { size = "sm", class: className = "", alt = "" } = Astro.props;
+
+const dimensions = {
+	sm: "h-9 w-9",
+	lg: "h-24 w-24 sm:h-28 sm:w-28",
+};
 ---
 
-<div class={`flex items-center gap-3 ${className}`}>
-	<svg
-		viewBox="0 0 24 26"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="1.4"
-		aria-hidden="true"
-		class={`shrink-0 text-teal ${isLarge ? "h-11 w-10" : "h-6 w-[22px]"}`}
-	>
-		<path d="M12 1.5 3 5v7.5c0 5.4 3.6 10.4 9 11.5 5.4-1.1 9-6.1 9-11.5V5l-9-3.5Z" />
-		<path d="M12 7.5v9M8.8 10h6.4" stroke-width="1" />
-	</svg>
-
-	<span class="flex flex-col leading-none">
-		<span
-			class={`label-mono text-accent ${isLarge ? "text-[0.7rem] tracking-[0.2em]" : "text-[0.6rem]"}`}
-		>
-			UPTM Cybersecurity Student Society
-		</span>
-		<span
-			class={`font-semibold tracking-[0.04em] ${isLarge ? "mt-1.5 text-4xl" : "mt-1 text-base"}`}
-		>
-			UCYSS
-		</span>
-	</span>
-</div>
+<img
+	src="/logos/ucyss-formal.png"
+	alt={alt}
+	width="320"
+	height="320"
+	decoding="async"
+	class:list={["object-contain", dimensions[size], className]}
+/>

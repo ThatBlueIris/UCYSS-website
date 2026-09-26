@@ -1,94 +1,128 @@
 ---
 /**
- * Footer. Carries the "under the umbrella of" lockup — borrowed institutional
- * credibility, which answers "are these people real?" for a first-time visitor
- * (PLAN.md §1.2).
+ * Footer. Carries the institutional lockup — borrowed credibility, which
+ * answers "are these people real?" for a first-time visitor (PLAN.md §1.2).
  *
- * UPTM / FCOM / Pixora marks are TEXT ONLY until usage permission is granted.
- * Do not add the logo files without that permission.
+ * The UPTM / FCOM / Pixora marks are displayed as supplied. They are three
+ * separate organisations' artwork in three different colour schemes, so they
+ * sit at low opacity and a fixed optical height: present, legible as
+ * institutions, never competing with the UCYSS mark.
  */
 import Wordmark from "./Wordmark.astro";
 
 const year = new Date().getFullYear();
 
+/* Widths chosen so each mark's *visible* height lands at 30–35px. Pixora's
+   canvas carries a lot of transparent padding, so it needs a much wider box
+   to end up the same size as the other two. */
+const umbrella = [
+	{ src: "/logos/uptm.png", alt: "Universiti Poly-Tech Malaysia", width: 78, natural: "320x143" },
+	{ src: "/logos/fcom.png", alt: "Faculty of Computing and Multimedia, UPTM", width: 78, natural: "320x125" },
+	{ src: "/logos/pixora.png", alt: "Pixora Society Club, FCOM", width: 51, natural: "320x320" },
+];
+
 const columns = [
 	{
-		title: "Explore",
+		title: "The site",
 		links: [
-			{ href: "/about", label: "About" },
-			{ href: "/what-we-do", label: "What We Do" },
+			{ href: "/about", label: "About UCYSS" },
+			{ href: "/what-we-do", label: "What we do" },
 			{ href: "/events", label: "Events" },
 			{ href: "/writeups", label: "Writeups" },
 		],
 	},
 	{
-		title: "Community",
+		title: "Take part",
 		links: [
-			{ href: "/gallery", label: "Gallery" },
-			{ href: "/team", label: "Team" },
-			{ href: "/alumni", label: "Alumni" },
 			{ href: "/join", label: "Join UCYSS" },
-		],
-	},
-	{
-		title: "More",
-		links: [
-			{ href: "/achievements", label: "Achievements" },
-			{ href: "/partners", label: "Partners" },
-			{ href: "/announcements", label: "Announcements" },
+			{ href: "/gallery", label: "Gallery" },
+			{ href: "/team", label: "Committee" },
 			{ href: "/contact", label: "Contact" },
 		],
 	},
 ];
 ---
 
-<footer class="border-t border-line bg-surface">
-	<div class="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-18">
-		<div class="grid gap-12 md:grid-cols-4 md:gap-8">
-			<div class="md:col-span-1">
-				<Wordmark />
-				<p class="mt-5 max-w-64 text-sm leading-relaxed text-muted">
-					The cybersecurity community within Pixora, FCOM, UPTM.
+<footer class="border-t border-line">
+	<div class="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
+		<div class="grid gap-12 md:grid-cols-12 md:gap-8">
+			<div class="md:col-span-5">
+				<a href="/" class="flex items-center gap-3.5" aria-label="UCYSS — home">
+					<Wordmark />
+					<span class="flex flex-col leading-none">
+						<span class="text-xl font-semibold tracking-tight">UCYSS</span>
+						<span class="label-mono mt-2 text-[0.5625rem] text-faint">
+							Cybersecurity Student Society
+						</span>
+					</span>
+				</a>
+				<p class="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-muted">
+					A student-led cybersecurity community. Capture-the-flag labs, digital
+					forensics, OSINT, and writeups from the sessions we actually run.
 				</p>
 			</div>
 
 			{
-				columns.map((col) => (
-					<div>
-						<h2 class="label-mono text-faint">{col.title}</h2>
-						<ul class="mt-4 space-y-2.5">
+				columns.map((col, i) => (
+					<nav
+						aria-label={col.title}
+						class:list={["md:col-span-3", i === 1 && "md:col-span-4 md:pl-10"]}
+					>
+						<p class="label-mono text-faint">{col.title}</p>
+						<ul class="mt-5 space-y-1">
 							{col.links.map((link) => (
 								<li>
 									<a
 										href={link.href}
-										class="text-sm text-muted transition-colors duration-200 hover:text-teal"
+										class="-mx-2 flex min-h-11 items-center px-2 text-sm text-muted transition-colors duration-200 hover:text-text"
 									>
 										{link.label}
 									</a>
 								</li>
 							))}
 						</ul>
-					</div>
+					</nav>
 				))
 			}
 		</div>
 
-		<!-- Institutional hierarchy. Text-only pending logo permission. -->
-		<div class="mt-14 border-t border-line-soft pt-8">
-			<p class="label-mono text-faint">A community within</p>
-			<p class="mt-3 text-sm text-muted">
-				<span class="text-text">Pixora</span>, the official club of the
-				<span class="text-text">Faculty of Computing &amp; Multimedia</span>,
-				<span class="text-text">Universiti Poly-Tech Malaysia</span>.
+		<!-- Institutional hierarchy: the real marks, displayed as supplied. -->
+		<div class="mt-14 border-t border-line pt-8 md:mt-20">
+			<p class="label-mono text-faint">A focus group within</p>
+			<ul class="mt-6 flex flex-wrap items-center gap-x-8 gap-y-5">
+				{
+					umbrella.map((mark) => (
+						<li class="opacity-45 transition-opacity duration-200 hover:opacity-80">
+							<img
+								src={mark.src}
+								alt={mark.alt}
+								width={mark.natural.split("x")[0]}
+								height={mark.natural.split("x")[1]}
+								loading="lazy"
+								decoding="async"
+								style={`width:${mark.width}px;height:auto`}
+							/>
+						</li>
+					))
+				}
+			</ul>
+			<p class="mt-5 max-w-xl text-sm leading-relaxed text-faint">
+				Universiti Poly-Tech Malaysia &rarr; Faculty of Computing &amp; Multimedia
+				&rarr; Pixora Society Club. UCYSS is a focus group inside Pixora, not a
+				separate club.
 			</p>
 		</div>
 
 		<div
-			class="mt-8 flex flex-col gap-3 border-t border-line-soft pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between"
+			class="mt-10 flex flex-col gap-2 border-t border-line pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between"
 		>
 			<p>&copy; {year} UCYSS. Student-led, non-commercial.</p>
 			<p class="font-mono">
-				<a href="/privacy" class="transition-colors hover:text-muted">Privacy</a>
+				<a
+					href="/privacy"
+					class="inline-flex min-h-11 items-center transition-colors duration-200 hover:text-muted"
+					>Privacy</a
+				>
 			</p>
 		</div>
 	</div>

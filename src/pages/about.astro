@@ -1,0 +1,264 @@
+---
+import Base from "../layouts/Base.astro";
+import Wordmark from "../components/Wordmark.astro";
+
+/* The hierarchy is stated as data so the marks, the order and the wording of
+   each rung cannot drift apart. Roles are the accurate ones: Pixora is FCOM's
+   official club and UCYSS sits inside it. */
+const hierarchy = [
+	{
+		name: "Universiti Poly-Tech Malaysia",
+		role: "The university. Cyberjaya, Selangor.",
+		logo: { src: "/logos/uptm.png", width: 320, height: 143, box: 64 },
+		indent: "sm:pl-0",
+		alt: "Universiti Poly-Tech Malaysia",
+	},
+	{
+		name: "Faculty of Computing & Multimedia",
+		role: "FCOM, UPTM. One faculty club: Pixora.",
+		logo: { src: "/logos/fcom.png", width: 320, height: 125, box: 64 },
+		indent: "sm:pl-8",
+		alt: "Faculty of Computing and Multimedia, UPTM",
+	},
+	{
+		name: "Pixora Society Club",
+		role: "The official FCOM club. Broad computing community — events, welfare, competitions.",
+		logo: { src: "/logos/pixora.png", width: 320, height: 320, box: 46 },
+		indent: "sm:pl-16",
+		alt: "Pixora Society Club, FCOM",
+	},
+	{
+		name: "UCYSS",
+		role: "A focus group inside Pixora. Capture-the-flag labs, forensics, OSINT.",
+		logo: null,
+		indent: "sm:pl-24",
+		alt: "",
+	},
+];
+
+const next = [
+	{ href: "/what-we-do", label: "What we do", note: "The three things, in detail." },
+	{ href: "/join", label: "Join UCYSS", note: "How membership actually works." },
+	{ href: "/writeups", label: "Writeups", note: "Everything we have published so far." },
+];
+---
+
+<Base
+	title="About"
+	description="Where UCYSS sits inside Pixora, FCOM and UPTM, what we run, how to join, and what we publish."
+>
+	<!-- ==================== MASTHEAD ==================== -->
+	<section class="border-b border-line">
+		<div
+			class="mx-auto grid max-w-6xl gap-12 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:gap-10"
+		>
+			<div class="lg:col-span-8">
+				<p class="label-mono text-accent">About</p>
+				<h1 class="mt-7 max-w-2xl text-display font-light">
+					Pixora is our home.
+					<span class="font-semibold">UCYSS</span> is where we go deep on security.
+				</h1>
+			</div>
+
+			<div class="hidden lg:col-span-4 lg:flex lg:justify-end lg:pt-2">
+				<Wordmark size="lg" alt="" />
+			</div>
+		</div>
+	</section>
+
+	<!-- ==================== BODY ==================== -->
+	<div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+		<div class="prose">
+			<p class="text-lede text-muted">
+				Three names get used loosely and it causes real confusion, so it is worth being
+				precise about which is which before anything else.
+			</p>
+
+			<h2>Where UCYSS sits</h2>
+
+			<p>
+				<strong>Pixora</strong> is the official student club of the Faculty of Computing
+				&amp; Multimedia at Universiti Poly-Tech Malaysia. It is a broad computing
+				community — events, welfare, competitions, the ordinary business of a faculty
+				club. It predates us, and it would carry on perfectly well without us.
+			</p>
+
+			<p>
+				<strong>UCYSS</strong> is a focus group inside Pixora. We are not a separate
+				society, we are not a rival to Pixora, and we are not competing for the same
+				recognition. We took the security part of that remit — capture-the-flag labs,
+				digital forensics, OSINT — and went deeper than a general-interest club has the
+				room to.
+			</p>
+
+			<!-- The hierarchy, as a ladder rather than a box diagram. Each rung is
+			     one institution, one supplied mark, and its real role. -->
+			<ol class="mt-10 border-t border-line">
+				{
+					hierarchy.map((row, i) => {
+						const last = i === hierarchy.length - 1;
+						return (
+							<li class:list={["flex items-stretch gap-4 border-b border-line py-5 sm:gap-6", row.indent]}>
+								<span class="relative w-4 shrink-0 self-stretch sm:w-5" aria-hidden="true">
+									<span
+										class:list={[
+											"absolute left-0 w-px bg-line-strong",
+											last ? "top-0 h-1/2" : "inset-y-0",
+										]}
+									/>
+									<span class="absolute left-0 top-1/2 h-px w-3.5 bg-line-strong" />
+								</span>
+
+								{row.logo ? (
+									<img
+										src={row.logo.src}
+										alt={row.alt}
+										width={row.logo.width}
+										height={row.logo.height}
+										loading="lazy"
+										decoding="async"
+										style={`width:${row.logo.box}px;height:auto`}
+										class="my-0.5 shrink-0 self-center opacity-60"
+									/>
+								) : (
+									<span class="my-0.5 flex shrink-0 items-center self-center">
+										<Wordmark />
+									</span>
+								)}
+
+								<span class="min-w-0">
+									<span class="block text-[1.0625rem] font-semibold tracking-tight text-text">
+										{row.name}
+									</span>
+									<span class="mt-1.5 block text-[0.9375rem] leading-relaxed text-muted">
+										{row.role}
+									</span>
+								</span>
+							</li>
+						);
+					})
+				}
+			</ol>
+
+			<div class="callout my-10">
+				<p class="m-0">
+					Most of what UCYSS does runs through Pixora's programmes. The Hack The Box lab
+					ran on Pixora's protocol, technical support, media and food teams. The CyberDSA
+					2026 trip was submitted by the Pixora treasurer against the faculty's ATAP
+					allocation, and we travelled as part of the Pixora delegation. There is no
+					separate UCYSS budget line to fight over, which is a feature.
+				</p>
+			</div>
+
+			<blockquote class="my-12">
+				<p class="m-0 text-[1.375rem] leading-snug font-light tracking-tight text-text md:text-2xl">
+					“Pixora is our home. UCYSS is where we go deep on security.”
+				</p>
+			</blockquote>
+
+			<h2>What we run</h2>
+
+			<p>
+				Three things, in roughly the order they eat our time. The work is deliberately
+				hands-on. A society that only talks about security teaches nothing, and one that
+				only runs labs teaches a narrow slice of it.
+			</p>
+
+			<h3>Labs</h3>
+			<p>
+				A Hack The Box session roughly every fortnight. The room fills, boxes get opened,
+				and somebody always gets stuck in a way worth writing down. Those write-downs are
+				the output, not a side effect. The first session, on the 5th of August, put 41
+				students in Classroom CR 5.20 at half past ten at night — every semester from
+				first year to ninth.
+			</p>
+
+			<h3>Forensics</h3>
+			<p>
+				Packet captures, a disk image, a steganography exercise. The Digital Forensics
+				folder is the oldest thing in our repository and still the most used:
+				<code>the_heist.pcap</code>, <code>ctf_network_investigation.pcap</code>, an NTFS
+				image lifted off a decommissioned drive, and a folder of images with something
+				hidden inside them.
+			</p>
+
+			<h3>OSINT</h3>
+			<p>
+				One workshop, one deck, and the most useful slide in it. A public group-project
+				report from 2019, uploaded to a document-sharing site with nothing redacted,
+				carrying every member's IC number, matric number and phone number. It is on the
+				internet now and it cannot be un-published. The only question left is whether
+				you knew it was there.
+			</p>
+
+			<h2>Joining</h2>
+
+			<p>
+				Membership runs through Pixora. You join Pixora, you tell them you want the
+				security track, and you turn up. There is no application test, no interview, and
+				no prerequisite module. If you can open a terminal and are willing to read a
+				walkthrough, you can keep up with a lab session.
+			</p>
+
+			<p>
+				Meetings are open to any FCOM student. Most people arrive knowing less than they
+				think they do, which is the correct amount to know.
+			</p>
+
+			<h2>What we publish</h2>
+
+			<p>
+				Everything we learn goes up as a writeup, publicly, which means it outlives the
+				committee that made it. Every one goes through the same short checklist first:
+			</p>
+
+			<ul>
+				<li>No live credentials, keys, tokens or passwords — not even realistic-looking ones.</li>
+				<li>No real target infrastructure, real domains, or real internal hostnames.</li>
+				<li>
+					No third-party personal data. Names, IC numbers, emails and phone numbers
+					belong to people who did not consent to being in a writeup.
+				</li>
+				<li>Screenshots cropped or blurred wherever something identifying is visible.</li>
+				<li>Every command and tool verified to actually run as written.</li>
+			</ul>
+
+			<p>
+				That last one is the one people skip, and it is the one that matters most.
+				Publishing a command that does not work teaches the reader something false. A
+				society that teaches OSINT has no excuse for publishing a doxxing guide by
+				accident.
+			</p>
+
+			<div class="callout my-10">
+				<p class="m-0">
+					One of the OSINT slides was a real 2019 group-project report, complete with
+					everyone's IC and matric numbers. That slide is the reason this site has a
+					privacy notice, and the reason the checklist above exists.
+				</p>
+			</div>
+		</div>
+
+		<!-- ==================== WHERE NEXT ==================== -->
+		<nav aria-label="About UCYSS" class="mt-20 border-t border-line pt-10 md:mt-24">
+			<h2 class="label-mono text-faint">Where next</h2>
+			<ul class="mt-6 grid gap-x-10 gap-y-1 sm:grid-cols-3">
+				{
+					next.map((item) => (
+						<li class="border-b border-line">
+							<a
+								href={item.href}
+								class="group flex min-h-16 flex-col justify-center py-3 transition-colors duration-200"
+							>
+								<span class="text-[1.0625rem] font-medium tracking-tight text-text transition-colors duration-200 group-hover:text-accent">
+									{item.label}
+								</span>
+								<span class="mt-1 text-sm text-muted">{item.note}</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+</Base>

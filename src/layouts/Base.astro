@@ -31,6 +31,9 @@ const { title, description, bare = false } = Astro.props;
 const site = Astro.site?.toString() ?? "";
 const canonical = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.toString();
 const fullTitle = title === "UCYSS" ? "UPTM Cybersecurity Student Society" : `${title} — UCYSS`;
+
+/* Absolute URL, because link previews resolve against the page, not the file. */
+const ogImage = new URL("/logos/ucyss-square.png", site || Astro.url.origin).toString();
 ---
 
 <!doctype html>
@@ -44,23 +47,36 @@ const fullTitle = title === "UCYSS" ? "UPTM Cybersecurity Student Society" : `${
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
 
-		<meta name="theme-color" content="#14213D" />
+		<meta name="theme-color" content="#05070C" />
+
+		<!-- PNG first, SVG second: browsers pick the last type they support, so
+		     modern clients get the vector shield and older ones still get a mark. -->
+		<link rel="icon" type="image/png" sizes="256x256" href="/logos/ucyss-casual.png" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/logos/ucyss-square.png" />
 
 		<!-- Open Graph: this is what shows when a link is shared in WhatsApp,
-		     Telegram or LinkedIn. Generated per-page in a later phase. -->
+		     Telegram or LinkedIn. Generated per-page in a later phase; until then
+		     the square mark is the honest default. -->
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="UCYSS" />
 		<meta property="og:title" content={fullTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="500" />
+		<meta property="og:image:height" content="500" />
+		<meta property="og:image:alt" content="UCYSS — UPTM Cybersecurity Student Society" />
 		<meta name="twitter:card" content="summary_large_image" />
 	</head>
 
-	<body class="min-h-dvh bg-bg text-text antialiased">
+	<!-- No background on <body>: the deep-space field is a negative-z
+	     pseudo-element of <body> and an opaque body background would hide it.
+	     The canvas is painted on <html> instead. See global.css. -->
+	<body class="min-h-dvh text-text antialiased">
 		<a
 			href="#main"
-			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-teal focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-navy"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-void"
 		>
 			Skip to content
 		</a>
