@@ -105,15 +105,26 @@ not an OSINT group, not a CTF team first. The type of community it is:
   no prior cybersecurity knowledge, and the community is deliberately built so that people
   teach each other up. A first-year with no background is the *expected* attendee, not an
   exception being made.
-- **CTF is encouraged and coordinated.** UCYSS fields its own team and members compete
-  together rather than alone.
-- **SunCTF is backed by the university** (transportation funding). Other CTFs are entered
-  self-funded, with no university ask.
-- **CTFs entered so far:** Bahtera CTF · Maltego OSINT CTF · Nadi CTF.
+- **Meetups run on Wednesdays.** The habit, not a guarantee — weeks get skipped when nobody
+  volunteers, during finals, or when people are busy. Say so plainly; do not imply an unbroken
+  weekly record.
+- **CTF is encouraged and coordinated.** UCYSS fields its own team and **enters competitions
+  as a team rather than as individuals**.
+- **SunCTF is backed by the university** (transport funding). The other competitions the team
+  raises the entry for itself.
+- **CTFs entered so far (4):** SunCTF · Bahtera CTF · Maltego OSINT CTF · Nadi CTF. *(Owner
+  said "I think it's 4 so far?" — worth confirming before it goes live.)*
 - **Post-CTF debriefs happen when requested.** The team gets together to walk through how
   flags were obtained, the methods, the steps. This is a team culture, not a document.
 - **Conventions and external meetups**, not only CyberDSA. Attendance is broader than one
   event.
+
+**Funding language is deliberately absent from the homepage.** An earlier draft of the CTF
+pillar read *"UPTM backs SunCTF with transport money; the rest we pay for ourselves."* The
+owner rejected it: highlighting that most activity is self-funded undersells the university's
+backing and makes the society look under-resourced — *"a bad image for uni, and us in
+fact."* Lesson: **the public site should not discuss money at all.** It belongs on the About
+page at most, stated neutrally, and even there the institutional support leads.
 
 **The differentiator is the model, not the topics.** "Everyone teaches everyone, beginners are
 genuinely welcome, we compete as a team" is the pitch. The topics are *evidence* that the model
@@ -536,19 +547,26 @@ Shared `tags`; per-collection `categories` for filtering.
 
 ### 5.0 Archive scale — answered, don't re-litigate
 
-The owner asked whether ~100 logged activities would make the listing enormous. **It will
-not, and the volume is an asset rather than a problem.**
+> **⚠ Corrected 2026-09-27.** An earlier draft of this section used ~100 logged activities as
+> the worked example and argued at length that the volume was a credibility asset. **That
+> number was an invention, not a count.** The owner's reaction: *"Why is the session and
+> activities ~100? That's a blatant lie."* Correct — an inflated figure on a society's own
+> site is worse than no figure at all, and the archive is the one section where being wrong is
+> trivially checkable by anyone who attends a meetup. **The published figure is now ~20.** The
+> growth target is real; padding the current number is not.
 
-- Astro emits every entry as a static page at build time. ~100 pages is trivial — a few
-  seconds, and it all serves off a CDN.
-- The index shows the latest ~12, with category and year filters, and paginates beyond that
-  (~9 pages at 12 per page).
+**The owner's question — will a large archive make the listing enormous? No**, and the
+answering logic still holds, it was just applied to a number that was made up:
+
+- Astro emits every entry as a static page at build time. A few hundred pages is trivial — a
+  few seconds, served off a CDN.
+- The index shows the latest ~12, with category and year filters, and paginates beyond that.
 - Filtering runs against static data, so it is instant and needs no server.
 - Every entry keeps its own URL, which is what makes search engines and link previews work.
 
-A hundred logged sessions is the single most convincing thing the site can display: it says
-*this group has been running, consistently, for a long time.* That is exactly the impression
-the awareness goal needs, so the archive should be prominent rather than buried.
+**Never publish a count that has not been counted.** The sessions-and-activities figure is
+`approximate: true` in the config so it renders with a `~`. If the real number is not known,
+either count it or drop the figure — do not round up.
 
 **Two composition rules for the archive** (learned by getting it wrong, 2026-09-27):
 
@@ -591,9 +609,10 @@ stats bar (members · sessions & activities · CTFs entered · meetup cadence �
 activity pillars (weekly sharing sessions · the CTF team · conventions & external meetups) ·
 featured writeup · next upcoming event · latest announcements · join CTA.
 
-**Stats row content is decided** (2026-09-27): 92 members · ~100 sessions and activities ·
-3 CTFs entered · weekly cadence. **No event-attendance figures** — conference turnout
-("38 students at MITEC") was removed by the owner as not representing the society.
+**Stats row content is decided** (2026-09-27): 92 members · ~20 sessions and activities ·
+4 CTFs entered · Wednesdays as the usual meetup day. **No event-attendance figures** —
+conference turnout ("38 students at MITEC") was removed by the owner as not representing the
+society. **No funding figures either** — see §1.4.
 
 **Every number on the site is read from `src/data/site.ts`.** No hardcoded statistics in
 markup. The module's header comment explains in plain language how to change the member count
@@ -811,6 +830,9 @@ being debugged at once.*
 - [x] **Repositioned hero**: peer-led-learning headline + real session log (§3.11). The fake
       terminal was rejected as generic
 - [x] Stats bar component — all figures read from `src/data/site.ts`, no hardcoded numbers
+- [x] **Stats corrected after owner review** (2026-09-27): 4 CTFs including SunCTF, Wednesday
+      cadence, and the invented ~100 activity count cut to ~20
+- [x] **Funding language removed from the homepage** — see §1.4
 - [x] Pillars section — weekly sharing sessions · the CTF team · conventions & external
       meetups
 - [x] Copy rewritten across `index`, `about` and `Footer` off the §1.4 model; banned-vocabulary

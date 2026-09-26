@@ -27,9 +27,11 @@ const pillars = [
 	{
 		tag: "02",
 		title: "The CTF team",
-		/* Read from the data module so the two lists cannot drift apart. */
-		meta: ctfNames.join(" · ").toLowerCase(),
-		body: "We enter competitions as a group rather than as individuals. UPTM backs SunCTF with transport money; the rest we pay for ourselves. Afterwards, if the team wants it, we sit down together and go through how each flag was actually got — the method, the steps, the dead ends. That conversation is the point, not a report anyone writes.",
+		/* Count derived from the data module so the two lists cannot drift apart.
+		   Deliberately not a wall of competition names in a small label — they are
+		   listed in full on the About page. */
+		meta: `${ctfNames.length} competitions · entered as one team`,
+		body: "We enter competitions as a team rather than as individuals, and we go in to compete with each other as much as with anyone else. Afterwards, if the team wants it, we sit down and work through how each flag was actually got — the method, the steps, the dead ends. That debrief is the part that teaches the most.",
 	},
 	{
 		tag: "03",

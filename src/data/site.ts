@@ -65,17 +65,27 @@
    ------------------------------------------------------------------------- */
 export const figures = {
 	members: { value: 92, label: "Members" },
-	sessionsRun: { value: 100, label: "Sessions and activities", approximate: true },
-	ctfsEntered: { value: 3, label: "CTFs entered" },
-	meetupCadence: { value: "Most weeks", label: "Meetup cadence" },
+	sessionsRun: { value: 20, label: "Sessions and activities", approximate: true },
+	ctfsEntered: { value: 4, label: "CTFs entered" },
+	meetupCadence: { value: "Wednesdays", label: "Usual meetup day" },
 } as const;
 
 /* ---------------------------------------------------------------------------
    The capture-the-flag competitions we have entered as a team.
    Add a new name to the end of the list, one per line, with the quotation mark
    and a comma:  "Some New CTF",
+
+   When you add a competition here, bump `ctfsEntered` above to match.
+
+   SunCTF is the one the university backs (transport funding). The rest the
+   team funds itself.
    ------------------------------------------------------------------------- */
-export const ctfNames = ["Bahtera CTF", "Maltego OSINT CTF", "Nadi CTF"] as const;
+export const ctfNames = [
+	"SunCTF",
+	"Bahtera CTF",
+	"Maltego OSINT CTF",
+	"Nadi CTF",
+] as const;
 
 /* ---------------------------------------------------------------------------
    The sharing sessions, newest first.
