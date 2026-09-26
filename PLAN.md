@@ -464,6 +464,35 @@ clean, typed data to the templates.
 triggers deploys.
 *Learn:* `commit`, `push`, `pull`, `branch`, `revert` — five commands cover ~95% of solo work.
 
+> **⚠ WORKING RULE — never push straight to `main` (owner instruction, 2026-09-27)**
+>
+> Every change goes through a **branch and a pull request**, even though this is a solo
+> private repository and nobody else is reviewing. The owner asked for this after the first
+> push landed directly on `main`.
+>
+> The sequence, every time:
+>
+> ```bash
+> git switch -c <short-descriptive-branch>
+> # ... make the change, git add / git commit ...
+> git push -u origin <branch>
+> gh pr create --fill          # then review the diff on GitHub and merge
+> ```
+>
+> Why it is worth the extra step on a solo repo:
+>
+> - The diff gets **read before it lands**. Changes here are design and copy decisions, and
+>   most of the mistakes in this project's history were caught by reading, not by testing.
+> - `main` stays **deployable at all times**. A half-finished change can never sit on the
+>   branch that Cloudflare Pages deploys from.
+> - It is the **habit that scales**. The whole plan assumes the site gets handed to a
+>   committee, and this is the workflow they will inherit.
+> - It makes a force-push unnecessary, which is how the first push had to go.
+>
+> Once the owner is comfortable, enabling **branch protection on `main`** in the repo settings
+> would make this enforced rather than merely intended — otherwise a PR is only a convention
+> that can still be bypassed.
+
 **Cloudflare Pages** — free static hosting with automatic HTTPS, deploying on every push.
 Free tier is generous, fast, and lock-in-free. A custom domain can be attached later without
 redeploying.
