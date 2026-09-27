@@ -36,9 +36,18 @@
          note: "",              <- one short line about it. "" hides the line.
        },
 
-   Anything left as "" is handled: an empty date shows a small "date to add"
-   marker so it is obvious it still needs filling in, and an empty presenter or
-   note is simply left out of the page. You never have to delete a field.
+   Anything left as "" is handled: an empty presenter or note is simply left
+   out of the page. You never have to delete a field.
+
+   An empty date is also left out here, and used to show a small "date to add"
+   marker instead. The gaps in the data were ending up as part of the design,
+   and a panel that is meant to read as a finished thing should not advertise
+   its own incompleteness. Fill a date in and it appears on its own.
+
+   Note the difference from the archive lower down: an event with no date still
+   gets a "date to add" marker there, because that list is a dated index and a
+   missing date in it is a real gap worth flagging. The two behave differently
+   on purpose.
 
    ---------------------------------------------------------------------------
    A NOTE ON THE FUTURE

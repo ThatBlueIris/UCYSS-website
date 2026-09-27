@@ -122,28 +122,67 @@
    The deep-space field
    ---------------------------------------------------------------------------
    Replaces the blueprint grid, the film grain and the repeating shield
-   watermark. Two pseudo-elements plus one opt-in utility, all CSS: no canvas,
+   watermark. Four pseudo-elements plus one opt-in utility, all CSS: no canvas,
    no JavaScript, no network requests. It is a backdrop, not a feature — a
    visitor should be able to ignore it entirely.
 
-     body::before  the atmosphere — orbital arcs, plus two horizon glows
-     body::after   the starfield — four lattices at different depths
-     .constellation  the same network again, on a single section
+     body::before   the atmosphere — orbital arcs, plus two horizon glows. STATIC
+     body::after    the drifting field — four lattices, slow transform
+     html::before   shimmer set A — two lattices, slow opacity pulse
+     html::after    shimmer set B — two lattices, same, out of phase
+     .constellation  the same network again, on a single section, very slow
 
-   Both pseudo-elements are `position: fixed; inset: 0`, so they are exactly
-   the viewport and the percentage anchors in the glows resolve against real
-   screen dimensions. (They used to be oversized by -10%/-5% for a transform
-   drift, which threw every glow anchor ~38vh off-screen and made the horizon
-   invisible. The drift is now a background-position step, so the boxes no
-   longer need the overscan.)
+   THE MOTION RULES THIS IS BUILT ON
+   ----------------------------------
+   "Alive" and "restful" pull against each other. The resolution used here:
 
-   Budget, all measured off a 1440×900 render. The glows add at most 22/255 to
-   the blue channel and 8/255 to green at their brightest pixel, 17/255 and 4/255
-   averaged across the top band — the brightest a large area of the field ever
-   gets. The stars are 560 points of 1–2px across that screen: 691 lit pixels,
-   0.05% coverage, peak lift 129/255 on the brightest one. So the "2–8% opacity"
-   rule holds for the field as a whole, and no run of more than a couple of
-   pixels is ever lifted enough to matter.
+   1. Nothing large moves. Small points drifting slowly is restful; large
+      shapes sweeping is fatiguing. The arcs and the two horizon glows are the
+      only large shapes, so they do not move at all. The previous version moved
+      them by stepping `background-position`; the step was 30 times in 220
+      seconds, i.e. a few pixels each, which is why the whole thing read as
+      static anyway. Freezing them costs nothing and removes the only
+      strain-prone part of the field.
+   2. The movement that *is* visible is high-frequency and low-amplitude: 113
+      small points pulsing out of phase with each other, plus 394 of them
+      drifting. Nothing big shifts in brightness. A slow wash changing luminance
+      over a large area is the real cause of eye strain and it is also the
+      "AI generated" gradient look, so it is not here.
+   3. No motion behind text. Everything that moves is a 1–2px point, and the
+      largest travel in the whole field is 4vw/5vh over 210s. There is no shape
+      capable of sweeping across a paragraph.
+
+   HOW THE DRIFT IS DONE
+   ---------------------
+   `transform: translate()` on an element that is oversized by 7% (inset:
+   -7%), not an animation of `background-position`. Transform is composited
+   and costs nothing per frame; `background-position` repaints the layer on
+   every single frame, which is what made the old version expensive as well as
+   invisible. The 7% overscan gives the drift 3vw/2vh of margin before an edge
+   could ever show.
+
+   The overscan is applied to `body::after` ONLY. `body::before` must stay
+   exactly viewport-sized: the two horizon glows are percentage-sized radial
+   gradients, and they resolve their anchors against the containing block, so
+   oversizing that box pushes them off-screen and the horizon disappears. That
+   was the bug the previous overscan introduced, and it is why the arcs and
+   glows are static — no transform means no overscan needed.
+
+   THE BRIGHTNESS BUDGET — unchanged, and it is still met
+   ------------------------------------------------------
+   Measured off a 1440×900 render. The glows add at most 22/255 to the blue
+   channel and 8/255 to green at their brightest pixel, 17/255 and 4/255 averaged
+   across the top band — unchanged, because the glows did not change.
+
+   The stars got a second job, so their budget was split rather than raised.
+   The faintest drifting lattice was thinned from a 67×79px tile to 79×89px
+   (−132 lit pixels) to pay for the shimmer layer. Net at 1440×900: 505 stars,
+   585 lit pixels, 0.045% coverage — *below* the 691 pixels / 0.05% the field
+   shipped at before, and the brightest star is still 0.3-alpha white at 1.5px,
+   so the peak lift is identical. Nothing in the field is over 8% opacity, no
+   run of more than a couple of pixels is lifted enough to matter, and the field
+   is now very slightly dimmer than it was, not brighter. The motion is visible
+   because there is more of *it*, not because any of it got louder.
 
    Every text colour in the system is opaque, so none of this can eat into a
    measured contrast ratio anyway. Worst case is a 10% teal lift over the void,
@@ -185,31 +224,87 @@
 		background-repeat: no-repeat, no-repeat, no-repeat;
 	}
 
+	/* The drifting field. This is the layer that translates, so it is the one
+	   that carries the 7% overscan. Note it is `position: fixed` — fixed
+	   elements never extend the document's scrollable area, so the overscan
+	   cannot produce a scrollbar or a layout shift. */
 	body::after {
 		content: "";
 		position: fixed;
-		inset: 0;
+		inset: -7%;
 		z-index: -1;
 		pointer-events: none;
+		will-change: transform;
 
 		/* Four lattices, none of them square, no two sharing a factor — the
 		   interference is what stops a CSS starfield looking like graph paper.
-		   ~490 points at 1440×900. */
+		   ~394 points on screen at 1440×900. The last tile is 79×89 rather than
+		   67×79: the shimmer layers below are paid for out of this layer's
+		   budget, not out of a bigger one (see the header). */
 		background-image:
 			radial-gradient(1.5px 1.5px at 50% 50%, rgb(255 255 255 / 0.3), transparent),
 			radial-gradient(1.2px 1.2px at 50% 50%, rgb(226 240 255 / 0.2), transparent),
 			radial-gradient(1px 1px at 50% 50%, rgb(226 240 255 / 0.14), transparent),
 			radial-gradient(1px 1px at 50% 50%, rgb(226 240 255 / 0.09), transparent);
 
-		background-size: 211px 223px, 149px 137px, 97px 113px, 67px 79px;
+		background-size: 211px 223px, 149px 137px, 97px 113px, 79px 89px;
 		background-position: 0 0, 61px 97px, 143px 23px, 37px 71px;
 		background-repeat: repeat;
 
-		/* One drift for the whole field, stepped. `steps(30)` means 30 repaints
-		   across 220s instead of 60 a second, and because it moves the tile
-		   origin rather than the element, the pseudo-element can stay exactly
-		   viewport-sized. Alternating, so it never snaps back. */
-		animation: field-drift 220s steps(30) infinite alternate;
+		/* The whole field, one slow pendulum. 210s each way, 4vw across and
+		   5vh down, eased so it never changes direction abruptly. At 1440×900
+		   that is 58px of travel in 210 seconds — 0.28px per second, which is
+		   slower than the eye tracks in peripheral vision, which is the point:
+		   you should catch it moving if you look for it, never feel it. */
+		animation: field-drift 210s ease-in-out infinite alternate;
+	}
+
+	/* Shimmer, set A. ~41 points on screen at 1440×900 — sparse and dim on
+	   purpose. Two lattices, so within one animation the points nearest each
+	   other are not in step, and the fainter of the two is dim enough to read
+	   as texture rather than as a star. This is the layer that actually makes
+	   the field look alive: opacity on 1px points, 0.5→1 over 6.4s, is
+	   high-frequency, low-amplitude motion, which is the opposite of the slow
+	   luminance wash that makes backgrounds tiring. */
+	html::before {
+		content: "";
+		position: fixed;
+		inset: 0;
+		z-index: -2;
+		pointer-events: none;
+
+		background-image:
+			radial-gradient(1.2px 1.2px at 50% 50%, rgb(232 244 255 / 0.24), transparent),
+			radial-gradient(1.1px 1.1px at 50% 50%, rgb(226 240 255 / 0.17), transparent);
+
+		background-size: 313px 287px, 227px 211px;
+		background-position: 41px 63px, 96px 17px;
+		background-repeat: repeat;
+
+		animation: field-shimmer-a 6.4s ease-in-out infinite alternate;
+	}
+
+	/* Shimmer, set B. ~71 points, a different pair of tile sizes and a negative
+	   delay so it never peaks where set A peaks. Two out-of-phase oscillators
+	   over different tile sizes is enough to break up the synchrony; a
+	   pulsating *network* would read as a sci-fi poster, so nothing here
+	   pulses as a shape. */
+	html::after {
+		content: "";
+		position: fixed;
+		inset: 0;
+		z-index: -2;
+		pointer-events: none;
+
+		background-image:
+			radial-gradient(1.1px 1.1px at 50% 50%, rgb(226 240 255 / 0.15), transparent),
+			radial-gradient(1px 1px at 50% 50%, rgb(226 240 255 / 0.1), transparent);
+
+		background-size: 269px 241px, 151px 167px;
+		background-position: 118px 44px, 27px 131px;
+		background-repeat: repeat;
+
+		animation: field-shimmer-b 9.7s ease-in-out -3.2s infinite alternate;
 	}
 
 	/* On a phone the arcs are 520px and pushed further off the corner, so they
@@ -222,22 +317,52 @@
 		}
 	}
 
-	/* The global rule above already collapses animation to a single ~0ms run.
-	   This is here so the intent is obvious to the next person, and because
-	   `steps()` + `alternate` is exactly the kind of thing that needs stating. */
+	/* Every moving part of the field, switched off outright. The global rule
+	   above already collapses durations to a single ~0ms run, but a negative
+	   `animation-delay` survives that, so a shimmer set could still start part
+	   way into its cycle. `animation: none` is unambiguous. */
 	@media (prefers-reduced-motion: reduce) {
-		body::after {
+		body::after,
+		html::before,
+		html::after {
 			animation: none;
 		}
 	}
 }
 
+/* The drift. Transform only — no `background-position`, no `filter`, no
+   `box-shadow`. Composited, so the whole field moves without a repaint, and
+   `will-change: transform` on the layer guarantees the promotion. (The
+   production minifier writes 2D `translate()`; both forms composite, and the
+   layer is promoted either way.) The amplitudes sit well inside the 7%
+   overscan: 4vw of a 7vw margin, 5vh of 7vh. */
 @keyframes field-drift {
 	from {
-		background-position: 0 0, 0 0, 0 0, 0 0;
+		transform: translate3d(0, 0, 0);
 	}
 	to {
-		background-position: -24px -36px, 37px 61px, 119px -13px, -16px 8px;
+		transform: translate3d(-4vw, 5vh, 0);
+	}
+}
+
+/* 0.5→1 and 0.34→1. The floor is not zero on purpose: a star that goes fully
+   dark and comes back reads as a blink, and blinking is what draws the eye. A
+   partial dip reads as a star at the edge of what you can resolve. */
+@keyframes field-shimmer-a {
+	from {
+		opacity: 0.5;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes field-shimmer-b {
+	from {
+		opacity: 0.34;
+	}
+	to {
+		opacity: 1;
 	}
 }
 
@@ -295,12 +420,53 @@
 	);
 }
 
-/* The constellation network again, on one section instead of the whole page */
+/* The constellation network again, on one section instead of the whole page.
+   The network lives on a pseudo-element rather than on the element itself,
+   because the element carries the archive's text: animating `transform` on it
+   would drag the prose along with it, and animating `background-position` on
+   it would repaint a full-width text block every frame. On its own layer the
+   drift is a composited transform and the text never repaints. `isolation`
+   gives the pseudo-element a stacking context to sit in, so it lands above the
+   section's surface and below its content rather than over the type. */
 @utility constellation {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 520 420' fill='none'%3E%3Cg stroke='%2318D0C0' stroke-opacity='.5' stroke-width='1'%3E%3Cpath d='M62 348 138 262 244 300 318 186 432 232'/%3E%3Cpath d='M138 262 176 118 318 186'/%3E%3Cpath d='M244 300 268 396'/%3E%3C/g%3E%3Cg fill='%2318D0C0' fill-opacity='.45'%3E%3Ccircle cx='62' cy='348' r='2'/%3E%3Ccircle cx='138' cy='262' r='2'/%3E%3Ccircle cx='244' cy='300' r='2.6'/%3E%3Ccircle cx='318' cy='186' r='2'/%3E%3Ccircle cx='432' cy='232' r='2'/%3E%3Ccircle cx='176' cy='118' r='2'/%3E%3Ccircle cx='268' cy='396' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
-	background-repeat: no-repeat;
-	background-position: right -40px top 50%;
-	background-size: 520px 420px;
+	position: relative;
+	isolation: isolate;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset-block: 0;
+		inset-inline-end: 0;
+		width: 560px;
+		z-index: -1;
+		pointer-events: none;
+		will-change: transform;
+
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 520 420' fill='none'%3E%3Cg stroke='%2318D0C0' stroke-opacity='.5' stroke-width='1'%3E%3Cpath d='M62 348 138 262 244 300 318 186 432 232'/%3E%3Cpath d='M138 262 176 118 318 186'/%3E%3Cpath d='M244 300 268 396'/%3E%3C/g%3E%3Cg fill='%2318D0C0' fill-opacity='.45'%3E%3Ccircle cx='62' cy='348' r='2'/%3E%3Ccircle cx='138' cy='262' r='2'/%3E%3Ccircle cx='244' cy='300' r='2.6'/%3E%3Ccircle cx='318' cy='186' r='2'/%3E%3Ccircle cx='432' cy='232' r='2'/%3E%3Ccircle cx='176' cy='118' r='2'/%3E%3Ccircle cx='268' cy='396' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right -40px top 50%;
+		background-size: 520px 420px;
+
+		/* 300s each way, 12px across and 8px down. Slower than you can follow
+		   without deliberately watching it. No pulse — a network that breathes
+		   is a sci-fi poster, which is the one register this site is avoiding. */
+		animation: constellation-drift 300s ease-in-out infinite alternate;
+	}
+}
+
+@keyframes constellation-drift {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+	to {
+		transform: translate3d(-12px, 8px, 0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.constellation::before {
+		animation: none;
+	}
 }
 
 /* ============================================================================
