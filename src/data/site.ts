@@ -36,9 +36,18 @@
          note: "",              <- one short line about it. "" hides the line.
        },
 
-   Anything left as "" is handled: an empty date shows a small "date to add"
-   marker so it is obvious it still needs filling in, and an empty presenter or
-   note is simply left out of the page. You never have to delete a field.
+   Anything left as "" is handled: an empty presenter or note is simply left
+   out of the page. You never have to delete a field.
+
+   An empty date is also left out here, and used to show a small "date to add"
+   marker instead. The gaps in the data were ending up as part of the design,
+   and a panel that is meant to read as a finished thing should not advertise
+   its own incompleteness. Fill a date in and it appears on its own.
+
+   Note the difference from the archive lower down: an event with no date still
+   gets a "date to add" marker there, because that list is a dated index and a
+   missing date in it is a real gap worth flagging. The two behave differently
+   on purpose.
 
    ---------------------------------------------------------------------------
    A NOTE ON THE FUTURE
@@ -131,14 +140,20 @@ export const sessions: SharingSession[] = [
    THE ARCHIVE — the list under "The archive" heading on the homepage.
 
    This is the site's credibility section, so keep it honest and keep it
-   representative. Two things to watch:
+   representative. Three things to watch:
 
-   1. Put sharing sessions at the top. Weekly sessions are what UCYSS actually
-      does, so the list should open with them rather than with the occasional
-      workshop. If the list is mostly one-off events it misrepresents us.
+   1. Do NOT list sharing sessions here. They live in the `sessions` list
+      above, and the homepage hero already shows them. Carrying the same rows
+      in both places made one page say "OSINT, Burp, Linux" three times over,
+      which reads as filler. This archive is for the things the hero does not
+      show: workshops, labs, conventions, visits and external meetups.
 
    2. Leave attendance numbers out. "38 students went to the convention" is not
       the thing worth saying about an event. Say what happened instead.
+
+   3. When more weekly sessions get recorded, revisit this split. It works
+      today because the hero has three topics and the archive has four other
+      things. Do not assume that balance holds as the list grows.
 
    A block looks like this:
 
@@ -151,8 +166,6 @@ export const sessions: SharingSession[] = [
        },
 
    Empty `date` renders a small "date to add" marker rather than a guess.
-   The first three entries below are the same sessions listed in `sessions`
-   above, which the homepage hero shows separately.
    ------------------------------------------------------------------------- */
 export interface ActivityEntry {
 	/** What sort of thing this was. Shown as a small mono label. */
@@ -166,24 +179,6 @@ export interface ActivityEntry {
 }
 
 export const activityLog: ActivityEntry[] = [
-	{
-		kind: "Sharing session",
-		title: "OSINT",
-		date: "",
-		body: "",
-	},
-	{
-		kind: "Sharing session",
-		title: "Web exploitation with Burp Suite",
-		date: "",
-		body: "",
-	},
-	{
-		kind: "Sharing session",
-		title: "Linux for beginners",
-		date: "",
-		body: "",
-	},
 	{
 		kind: "Convention",
 		title: "CyberDSA 2026",

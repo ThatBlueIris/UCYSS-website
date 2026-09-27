@@ -22,7 +22,7 @@ const pillars = [
 		tag: "01",
 		title: "Weekly sharing sessions",
 		meta: "member-led · one topic per week",
-		body: "One member signs up to teach something they picked up recently, and everyone else comes to learn it. The topic changes every week and is deliberately varied — OSINT, web exploitation with Burp Suite, and Linux for beginners have all been on. Nobody is expected to know anything beforehand.",
+		body: "One member signs up to teach something they picked up recently, and everyone else comes to learn it. The topic changes every week and is deliberately varied — the three most recent are listed at the top of this page. Nobody is expected to know anything beforehand.",
 	},
 	{
 		tag: "02",
@@ -92,11 +92,15 @@ const pillars = [
 
 			<!-- What we actually run, taken from the record. Deliberately not a
 			     terminal: a fake `$` prompt is meta for every cybersecurity site
-			     on the internet, and this one is meant to look like an archive. -->
+			     on the internet, and this one is meant to look like an archive.
+
+			     No `caption` here. The panel already says the topic is open and
+			     anyone may take it, and the beginner-first half of the old caption
+			     is said by the lede on the left. Passing it made a single column
+			     assert "anyone can teach" three times over, which is the filler
+			     failure this page has already had once. -->
 			<div class="lg:col-span-5 lg:pt-14">
-				<SessionLog
-					caption="Anyone in the room can teach the next one — being new to security is not a reason to wait."
-				/>
+				<SessionLog />
 			</div>
 		</div>
 	</section>

@@ -22,9 +22,15 @@ interface Props {
 	description: string;
 	/** Hide the header/footer chrome (used by the 404 page) */
 	bare?: boolean;
+	/**
+	 * Keep this page out of search engines. Set on every placeholder page, so a
+	 * section that is linked but not yet written never surfaces in a result
+	 * ahead of the pages that are finished.
+	 */
+	noindex?: boolean;
 }
 
-const { title, description, bare = false } = Astro.props;
+const { title, description, bare = false, noindex = false } = Astro.props;
 
 /* Set `site` in astro.config.mjs to your real origin — canonical URLs and the
    sitemap need an absolute base. Placeholder until a domain/subdomain is fixed. */
@@ -46,6 +52,7 @@ const ogImage = new URL("/logos/ucyss-square.png", site || Astro.url.origin).toS
 		<title>{fullTitle}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
 
 		<meta name="theme-color" content="#05070C" />
 

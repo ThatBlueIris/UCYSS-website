@@ -1,0 +1,75 @@
+---
+/**
+ * Placeholder for a section that is linked from the navigation but has not
+ * been written yet.
+ *
+ * These pages exist so that nothing on the site is a dead end. A visitor who
+ * clicks "Gallery" should get a real page that says something true, not a 404
+ * and not a blank screen pretending to be content.
+ *
+ * Two rules this component enforces, because they are easy to break by accident:
+ *
+ *   1. Never invent content to fill the gap. No placeholder paragraphs, no
+ *      lorem ipsum, no fake schedules, no plausible-looking example events.
+ *      If the page is empty, it says it is empty.
+ *
+ *   2. Every one of these pages carries `noindex`. A half-written page should
+ *      never end up in a search result — see the `noindex` prop on Base.astro.
+ *
+ * Copy is passed in rather than looked up from a table, so each page's wording
+ * lives next to the page it belongs to and can be judged on whether it is
+ * actually honest about that specific page.
+ */
+import Base from "../layouts/Base.astro";
+
+export interface Props {
+	/** Page heading, and the nav label this page answers to. */
+	title: string;
+	/** Meta description. Also used as the intro line if `pending` is omitted. */
+	description: string;
+	/** One plain sentence on what is not here yet, and why. */
+	pending: string;
+	/**
+	 * A pointer to somewhere real. Strongly encouraged: a page that only says
+	 * "not written yet" is a dead end with better manners.
+	 */
+	instead?: { href: string; label: string; note: string };
+}
+
+const { title, description, pending, instead } = Astro.props;
+---
+
+<Base title={title} description={description} noindex>
+	<section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+		<div class="max-w-2xl">
+			<p class="label-mono text-accent">{title}</p>
+			<h1 class="mt-6 text-title font-light">{title}</h1>
+
+			<p class="mt-8 text-lede leading-relaxed text-muted">{pending}</p>
+
+			{
+				instead && (
+					<>
+						<p class="mt-14 border-t border-line pt-6">
+							<a
+								href={instead.href}
+								class="group flex min-h-11 items-baseline gap-3 text-muted transition-colors duration-200 hover:text-text"
+							>
+								<span class="text-[0.9375rem]">{instead.label}</span>
+								<span
+									aria-hidden="true"
+									class="text-accent transition-transform duration-200 group-hover:translate-x-0.5"
+								>
+									→
+								</span>
+							</a>
+							<p class="mt-1 text-[0.9375rem] leading-relaxed text-faint">
+								{instead.note}
+							</p>
+						</p>
+					</>
+				)
+			}
+		</div>
+	</section>
+</Base>

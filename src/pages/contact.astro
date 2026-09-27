@@ -1,0 +1,23 @@
+---
+/**
+ * TODO BEFORE LAUNCH — this page has no contact address, and that is a real gap
+ * rather than a stylistic choice. A "Contact" page with no way to contact
+ * anyone is worse than no page. It needs a real address that a committee member
+ * actually reads, plus the contact form (Web3Forms or Formspree) with a
+ * Cloudflare Turnstile challenge and a PDPA consent line.
+ *
+ * Until then it is a placeholder that says so honestly.
+ */
+import Placeholder from "../components/Placeholder.astro";
+---
+
+<Placeholder
+	title="Contact"
+	description="How to reach UCYSS at UPTM."
+	pending="We have not published a contact address yet. An email address nobody checks is worse than none, so this page stays empty until there is a real one behind it."
+	instead={{
+		href: "/about",
+		label: "About UCYSS",
+		note: "Who we are and which faculty we are in, if you would rather find us in person.",
+	}}
+/>
